@@ -1,45 +1,40 @@
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Form, FormField } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { Button } from '../ui/button'
-
-type dynamicFormProps = {
-  label: string
-  name: 'text'
-  placeholder: string
-  defaultValue?: string
-}
+import InputQuestion from './InputQuestion'
+import { useState } from 'react'
 
 type FormValues = {
   [key: string]: string
 }
 
-const formSchema = z.object({
-  text: z.string(),
-})
+export type TInputQuestion = {
+  label: string
+  name: string
+  placeholder: string
+}
 
-const TextQuestion = ({
-  label,
-  name,
-  placeholder,
-  defaultValue,
-}: dynamicFormProps) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      text: defaultValue || '',
-    },
-  })
+const inputQuestionsData: TInputQuestion[] = [
+  {
+    label: 'What is your name?',
+    name: 'text',
+    placeholder: 'John Doe',
+  },
+]
+
+const DynamicForm = () => {
+  const form = useForm()
+
+  const [inputQuestions, setInputQuestions] =
+    useState<TInputQuestion[]>(inputQuestionsData)
+
+  const setQuestionLabel = (index: number, label: string) => {
+    setInputQuestions((prev) => {
+      const newQuestions = [...prev]
+      newQuestions[index].label = label
+      return newQuestions
+    })
+  }
 
   const onSubmit = (data: FormValues) => {
     console.log(data)
@@ -48,26 +43,28 @@ const TextQuestion = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name={name}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{label}</FormLabel>
-              <FormControl>
-                <Input placeholder={placeholder} {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {inputQuestions.map((question, index) => (
+          <FormField
+            key={index}
+            control={form.control}
+            name={question.name}
+            render={({ field }) => (
+              <InputQuestion
+                index={index}
+                label={question.label}
+                placeholder={question.placeholder}
+                field={field}
+                setQuestionLabel={setQuestionLabel}
+              />
+            )}
+          />
+        ))}
       </form>
-      <Button type="submit">Submit</Button>
+      <Button className="mt-4" type="submit">
+        Submit
+      </Button>
     </Form>
   )
 }
 
-export default TextQuestion
+export default DynamicForm
