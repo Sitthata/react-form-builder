@@ -1,5 +1,6 @@
 import App from "@/App";
-import FormsQuestion from "@/pages/FormsQuestion";
+import FormBuilderPage from "@/pages/FormBuilderPage";
+
 import Layout from "@/pages/Layout";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'design',
-        element: <FormsQuestion />,
+        element: <FormBuilderPage />,
       },
       // TODO: Not Found page
       // {

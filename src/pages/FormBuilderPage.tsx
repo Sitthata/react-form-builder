@@ -1,6 +1,6 @@
 import { DynamicForm } from '@/components/FormComponents'
 
-const FormsQuestion = () => {
+const FormBuilderPage = () => {
   return (
     <div>
       <DynamicForm />
@@ -8,4 +8,4 @@ const FormsQuestion = () => {
   )
 }
 
-export default FormsQuestion
+export default FormBuilderPage
