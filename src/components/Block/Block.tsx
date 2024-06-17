@@ -1,10 +1,10 @@
 import { cn } from '@/lib/utils'
-import React, { useEffect, useRef, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 
 type BlockProps = {
-    children: (isEditing: boolean) => React.ReactNode
+    children: (isEditing: boolean) => ReactNode
     className?: string
-} & React.HTMLAttributes<HTMLDivElement>
+}
 
 const Block = ({ children, className, ...props }: BlockProps) => {
     const [isEditing, setIsEditing] = useState(false)
@@ -29,10 +29,14 @@ const Block = ({ children, className, ...props }: BlockProps) => {
     }
 
     const blockRef = useOutsideClick(() => setIsEditing(false))
+    const handleClick = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        setIsEditing(true)
+    } 
 
     return (
         <div
-            onClick={() => setIsEditing(true)}
+            onClick={handleClick}
             className={cn(
                 'group cursor-pointer rounded-lg p-5 transition-colors duration-300 hover:bg-gray-800',
                 {
