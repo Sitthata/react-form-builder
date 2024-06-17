@@ -13,3 +13,9 @@ interface Choice {
     label: string
     value: string
 }
+
+type TInputQuestion = {
+    label: string
+    name: string
+    placeholder: string
+  }
