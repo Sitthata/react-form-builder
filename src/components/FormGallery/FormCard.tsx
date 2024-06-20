@@ -13,7 +13,7 @@ const FormCard = () => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex flex-col gap-2 justify-between md:flex-row">
+        <div className="flex flex-col justify-between gap-2 md:flex-row">
           <div>
             <CardTitle>React Senior Survey</CardTitle>
             <CardDescription>8 hours agos</CardDescription>

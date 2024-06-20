@@ -1,8 +1,8 @@
-import App from "@/App";
-import FormBuilderPage from "@/pages/FormBuilderPage";
+import App from '@/App'
+import FormBuilderPage from '@/pages/FormBuilderPage'
 
-import Layout from "@/pages/Layout";
-import { createBrowserRouter } from "react-router-dom";
+import Layout from '@/pages/Layout'
+import { createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +24,6 @@ const router = createBrowserRouter([
       // },
     ],
   },
-]);
+])
 
-export default router;
+export default router

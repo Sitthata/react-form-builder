@@ -1,8 +1,5 @@
-
 const NewComponentButton = () => {
-  return (
-    <div>NewComponentButton</div>
-  )
+  return <div>NewComponentButton</div>
 }
 
 export default NewComponentButton

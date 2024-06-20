@@ -19,7 +19,6 @@ type TFormData = {
 }
 
 const AddNewForm = () => {
-
   const {
     register,
     handleSubmit,
@@ -28,7 +27,7 @@ const AddNewForm = () => {
 
   const onSubmit = handleSubmit((data) => {
     console.log(data)
-    console.log(errors);
+    console.log(errors)
   })
 
   return (
