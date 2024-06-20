@@ -3,23 +3,23 @@ import { Block } from '../Block'
 import { Input } from '../ui/input'
 
 type TextInputBlockProps = {
-  index: number
+  id: number
   label: string
   runningNumber: number
   setQuestionLabel: (index: number, label: string) => void
 }
 
 const TextInputBlock = ({
+  id,
   label,
   runningNumber,
-  index,
   setQuestionLabel,
 }: TextInputBlockProps) => {
   const handleLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuestionLabel(index, e.target.value)
+    setQuestionLabel(id, e.target.value)
   }
   return (
-    <Block>
+    <Block id={id}>
       {(isEditing) => (
         <div>
           {isEditing ? (

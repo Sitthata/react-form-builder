@@ -1,55 +1,58 @@
+import { useEditMode } from '@/context/EditModeContext'
 import { cn } from '@/lib/utils'
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 
 type BlockProps = {
-    children: (isEditing: boolean) => ReactNode
-    className?: string
+  id: number
+  children: (isEditing: boolean) => ReactNode
+  className?: string
 }
 
-const Block = ({ children, className, ...props }: BlockProps) => {
-    const [isEditing, setIsEditing] = useState(false)
+const Block = ({ id, children, className, ...props }: BlockProps) => {
+  const { editingId, setEditingId } = useEditMode()
+  const isEditing = editingId === id
+  const useOutsideClick = (callback: () => void) => {
+    const ref = useRef<HTMLDivElement | null>(null)
 
-    const useOutsideClick = (callback: () => void) => {
-        const ref = useRef<HTMLDivElement | null>(null)
+    useEffect(() => {
+      const handleClick = (e: MouseEvent) => {
+        if (ref.current && !ref.current.contains(e.target as Node)) {
+          callback()
+        }
+      }
 
-        useEffect(() => {
-            const handleClick = (e: MouseEvent) => {
-                if (ref.current && !ref.current.contains(e.target as Node)) {
-                    callback()
-                }
-            }
+      document.addEventListener('click', handleClick)
 
-            document.addEventListener('click', handleClick)
+      return () => {
+        document.removeEventListener('click', handleClick)
+      }
+    }, [callback, ref])
+    return ref
+  }
 
-            return () => {
-                document.removeEventListener('click', handleClick)
-            }
-        }, [callback, ref])
-        return ref
-    }
+  const blockRef = useOutsideClick(() => setEditingId(null))
 
-    const blockRef = useOutsideClick(() => setIsEditing(false))
-    const handleClick = (e: React.MouseEvent) => {
-        e.stopPropagation()
-        setIsEditing(true)
-    } 
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setEditingId(id)
+  }
 
-    return (
-        <div
-            onClick={handleClick}
-            className={cn(
-                'group cursor-pointer rounded-lg p-5 transition-colors duration-300 hover:bg-gray-800',
-                {
-                    'bg-gray-600': isEditing,
-                },
-                className
-            )}
-            ref={blockRef}
-            {...props}
-        >
-            {children(isEditing)}
-        </div>
-    )
+  return (
+    <div
+      onClick={handleClick}
+      className={cn(
+        'group cursor-pointer rounded-lg p-5 transition-colors duration-300 hover:bg-gray-800',
+        {
+          'bg-gray-600': isEditing,
+        },
+        className
+      )}
+      ref={blockRef}
+      {...props}
+    >
+      {children(isEditing)}
+    </div>
+  )
 }
 
 export default Block

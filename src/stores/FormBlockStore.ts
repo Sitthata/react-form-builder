@@ -6,7 +6,6 @@ interface FormBlockState {
     updateBlock: (id: string, block: Block) => void;
     removeBlock: (id: string) => void;
 }
-
 const useFormBlockStore = create<FormBlockState>((set) => ({
     // State
     blocks: [],

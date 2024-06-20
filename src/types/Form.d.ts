@@ -15,6 +15,7 @@ interface Choice {
 }
 
 type TInputQuestion = {
+    id: number
     label: string
     name: string
     placeholder: string
