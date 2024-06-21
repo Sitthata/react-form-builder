@@ -16,7 +16,16 @@ interface Choice {
 
 type TInputQuestion = {
   id: number
+  type: 'text' | 'multipleChoice' | 'rating' | 'date'
   label: string
-  name: string
-  placeholder: string
+  required: boolean
+  multipleChoose?: TMultipleChoose
+  selected?: number
+  options?: string[]
+}
+
+type TMultipleChoose = {
+  status: boolean
+  type?: 'noLimit' | 'equalTo' | 'atMost'
+  limit?: number
 }
