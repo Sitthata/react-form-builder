@@ -4,19 +4,27 @@ interface Block {
   label: string
 }
 
-interface ChoiceBlock extends Block {
-  choices: Choice[]
+interface TextInputQuestion {
+  id: number;
+  type: 'text';
+  label: string;
+  required: boolean;
 }
 
-interface Choice {
-  id: string
-  label: string
-  value: string
-}
-
-type TInputQuestion = {
+interface MultipleChoiceQuestion {
   id: number
+  type: 'text' | 'multipleChoice' | 'rating' | 'date'
   label: string
-  name: string
-  placeholder: string
+  required: boolean
+  multipleChoose?: TMultipleChoose
+  selected?: number
+  options?: string[]
 }
+
+type TMultipleChoose = {
+  status: boolean
+  type?: 'noLimit' | 'equalTo' | 'atMost'
+  limit?: number
+}
+
+type TInputQuestion = TextInputQuestion | MultipleChoiceQuestion

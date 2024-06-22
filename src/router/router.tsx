@@ -1,4 +1,5 @@
 import App from '@/App'
+import DragPage from '@/pages/DragPage'
 import FormBuilderPage from '@/pages/FormBuilderPage'
 
 import Layout from '@/pages/Layout'
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
         path: 'design',
         element: <FormBuilderPage />,
       },
+      {
+        path: 'drag',
+        element: <DragPage />,
+      }
       // TODO: Not Found page
       // {
       //   path: '*',
