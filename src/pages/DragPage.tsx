@@ -93,7 +93,7 @@ const DragPage = () => {
               ))}
             </div>
           </SortableContext>
-          <DragOverlay />
+          <DragOverlay dropAnimation={null} />
         </DndContext>
       </div>
     </Wrapper>
