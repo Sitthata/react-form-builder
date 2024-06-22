@@ -1,6 +1,13 @@
+import { DragAndDropContainer } from '@/components/DragAndDrop'
 import { TextInputBlock } from '@/components/FormBuilder'
 import MultipleChoiceBlock from '@/components/FormBuilder/MultipleChoiceBlock'
 import { EditModeProvider } from '@/context/EditModeContext'
+import { DndContext, DragOverlay } from '@dnd-kit/core'
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable'
 import { useState } from 'react'
 
 const inputQuestionsData: TInputQuestion[] = [
@@ -37,10 +44,22 @@ const FormBuilderPage = () => {
       prev.map((q) => (q.id === id ? { ...q, ...updateField } : q))
     )
   }
+  function handleDragEnd(event: any) {
+    const { active, over } = event
+
+    if (active.id !== over.id) {
+      setQuestions((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id)
+        const newIndex = items.findIndex((item) => item.id === over.id)
+
+        return arrayMove(items, oldIndex, newIndex)
+      })
+    }
+  }
   return (
     <EditModeProvider>
-      <div>
-        <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2">
+        <DragAndDropContainer items={questions} onDragEnd={handleDragEnd}>
           {questions.map((question, index) => {
             if (question.type === 'text') {
               return (
@@ -63,7 +82,7 @@ const FormBuilderPage = () => {
             }
             return null
           })}
-        </div>
+        </DragAndDropContainer>
       </div>
     </EditModeProvider>
   )

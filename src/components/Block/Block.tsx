@@ -1,6 +1,9 @@
 import { useEditMode } from '@/context/EditModeContext'
-import { cn } from '@/lib/utils'
+import { cn, mergeRefs } from '@/lib/utils'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import { ReactNode, useEffect, useRef } from 'react'
+import { MdDragHandle } from 'react-icons/md'
 
 type BlockProps = {
   id: number
@@ -42,9 +45,17 @@ const Block = ({ id, children, className, ...props }: BlockProps) => {
     setEditingId(id)
   }
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: id })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    touchAction: 'none',
+  }
+
   return (
     <div
-      onClick={handleClick}
       className={cn(
         'group cursor-pointer rounded-lg p-5 transition-colors duration-300 hover:bg-selection-foreground',
         {
@@ -52,9 +63,18 @@ const Block = ({ id, children, className, ...props }: BlockProps) => {
         },
         className
       )}
-      ref={blockRef}
+      onClick={handleClick}
+      ref={mergeRefs<HTMLDivElement>(blockRef, setNodeRef)}
+      style={style}
       {...props}
     >
+      <div
+        className="drag-handle flex cursor-grab justify-center transition-opacity duration-200 opacity-0 group-hover:opacity-100"
+        {...listeners}
+        {...attributes}
+      >
+        <MdDragHandle className='w-6 h-6' />
+      </div>
       {children(isEditing)}
     </div>
   )
