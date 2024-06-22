@@ -30,6 +30,9 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
+    --selection: 75, 13%, 94%;
+    --selection-foreground: 7, 7%, 73%;
+
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
@@ -61,6 +64,9 @@
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
+
+    --selection: 120, 2%, 24%;
+    --selection-foreground: 200, 33%, 20%;
 
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;

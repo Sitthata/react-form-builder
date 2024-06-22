@@ -46,9 +46,9 @@ const Block = ({ id, children, className, ...props }: BlockProps) => {
     <div
       onClick={handleClick}
       className={cn(
-        'group cursor-pointer rounded-lg p-5 transition-colors duration-300 hover:bg-gray-800',
+        'group cursor-pointer rounded-lg p-5 transition-colors duration-300 hover:bg-selection-foreground',
         {
-          'bg-gray-600': isEditing,
+          'bg-selection': isEditing,
         },
         className
       )}
