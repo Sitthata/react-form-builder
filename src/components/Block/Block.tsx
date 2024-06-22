@@ -20,11 +20,16 @@ const Block = ({ id, children, className, ...props }: BlockProps) => {
           callback()
         }
       }
-
+      document.onkeydown = (e) => {
+        if (e.key === 'Escape') {
+          callback()
+        }
+      }
       document.addEventListener('click', handleClick)
 
       return () => {
         document.removeEventListener('click', handleClick)
+        document.onkeydown = null
       }
     }, [callback, ref])
     return ref

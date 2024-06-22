@@ -75,7 +75,7 @@ const TextInputBlock = ({
   }
 
   return (
-    <Block id={question.id}>
+    <Block id={localQuestion.id}>
       {(isEditing) => (
         <div>
           {isEditing ? (
@@ -84,13 +84,13 @@ const TextInputBlock = ({
                 <span>{runningNumber}.</span>
                 <Input
                   className="group-hover:border-white"
-                  value={question.label}
+                  value={localQuestion.label}
                   onChange={handleLabelChange}
                 />
               </h1>
-              {question.multipleChoose?.status ? (
+              {localQuestion.multipleChoose?.status ? (
                 <div className="flex flex-col gap-2">
-                  {question.options?.map((option, index) => (
+                  {localQuestion.options?.map((option, index) => (
                     <div className="flex items-center space-x-2">
                       <Checkbox id={option} />
                       <Input
@@ -103,7 +103,7 @@ const TextInputBlock = ({
                 </div>
               ) : (
                 <RadioGroup disabled>
-                  {question.options?.map((option, index) => (
+                  {localQuestion.options?.map((option, index) => (
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value={option} />
                       <Input
@@ -122,14 +122,14 @@ const TextInputBlock = ({
               <div className="flex justify-end gap-5">
                 <div className="flex items-center space-x-2">
                   <Switch
-                    checked={question.multipleChoose?.status}
+                    checked={localQuestion.multipleChoose?.status}
                     onCheckedChange={handleMultipleChooseChange}
                   />
                   <Label>Multiple answers</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Switch
-                    checked={question.required}
+                    checked={localQuestion.required}
                     onCheckedChange={handleRequiredChange}
                   />
                   <Label>Required</Label>
@@ -138,10 +138,10 @@ const TextInputBlock = ({
             </div>
           ) : (
             <div className="flex flex-col gap-2">
-              <Label className="text-sm">{`${runningNumber}. ${question.label}`}</Label>
-              {question.multipleChoose?.status ? (
+              <Label className="text-sm">{`${runningNumber}. ${localQuestion.label}`}</Label>
+              {localQuestion.multipleChoose?.status ? (
                 <div className="flex flex-col gap-2">
-                  {question.options?.map((option) => (
+                  {localQuestion.options?.map((option) => (
                     <div className="flex items-center space-x-2">
                       <Checkbox id={option} />
                       <Label>{`${option}`}</Label>
@@ -150,7 +150,7 @@ const TextInputBlock = ({
                 </div>
               ) : (
                 <RadioGroup disabled>
-                  {question.options?.map((option) => (
+                  {localQuestion.options?.map((option) => (
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value={option} />
                       <Label>{`${option}`}</Label>

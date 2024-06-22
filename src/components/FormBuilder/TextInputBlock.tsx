@@ -1,33 +1,38 @@
 import { Label } from '@radix-ui/react-label'
 import { Block } from '../Block'
 import { Input } from '../ui/input'
-import { Switch } from "@/components/ui/switch"
+import { Switch } from '@/components/ui/switch'
+import { useEffect, useState } from 'react'
 
 type TextInputBlockProps = {
-  id: number
-  label: string
-  isRequired: boolean
+  question: TextInputQuestion
   runningNumber: number
-  setQuestionLabel: (index: number, label: string) => void
-  setQuestionRequired: (index: number, required: boolean) => void
+  updateQuestion: (
+    id: number,
+    updatedFields: Partial<TextInputQuestion>
+  ) => void
 }
 
 const TextInputBlock = ({
-  id,
-  label,
-  isRequired,
+  question,
   runningNumber,
-  setQuestionLabel,
-  setQuestionRequired,
+  updateQuestion,
 }: TextInputBlockProps) => {
+  const [localQuestion, setLocalQuestion] =
+    useState<TextInputQuestion>(question)
+
+  useEffect(() => {
+    updateQuestion(localQuestion.id, localQuestion)
+  }, [localQuestion, updateQuestion])
+
   const handleLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuestionLabel(id, e.target.value)
+    setLocalQuestion({ ...localQuestion, label: e.target.value })
   }
   const handleRequiredChange = () => {
-    setQuestionRequired(id, !isRequired)
+    setLocalQuestion({ ...localQuestion, required: !localQuestion.required })
   }
   return (
-    <Block id={id}>
+    <Block id={question.id}>
       {(isEditing) => (
         <div>
           {isEditing ? (
@@ -36,15 +41,15 @@ const TextInputBlock = ({
                 <span>{runningNumber}.</span>
                 <Input
                   className="group-hover:border-white"
-                  value={label}
+                  value={localQuestion.label}
                   onChange={handleLabelChange}
                 />
               </h1>
               <hr />
               <div className="flex justify-end">
                 <div className="flex items-center space-x-2">
-                  <Switch 
-                    checked={isRequired}
+                  <Switch
+                    checked={localQuestion.required}
                     onCheckedChange={handleRequiredChange}
                   />
                   <Label>Required</Label>
@@ -53,7 +58,7 @@ const TextInputBlock = ({
             </div>
           ) : (
             <div className="flex flex-col gap-2">
-              <Label className="text-sm">{`${runningNumber}. ${label}`}</Label>
+              <Label className="text-sm">{`${runningNumber}. ${localQuestion.label}`}</Label>
               <Input
                 className="group-hover:border-white"
                 type="text"

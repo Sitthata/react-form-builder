@@ -1,6 +1,5 @@
 import { TextInputBlock } from '@/components/FormBuilder'
 import MultipleChoiceBlock from '@/components/FormBuilder/MultipleChoiceBlock'
-// import { DynamicForm } from '@/components/FormComponents'
 import { EditModeProvider } from '@/context/EditModeContext'
 import { useState } from 'react'
 
@@ -32,16 +31,7 @@ const inputQuestionsData: TInputQuestion[] = [
 const FormBuilderPage = () => {
   const [questions, setQuestions] =
     useState<TInputQuestion[]>(inputQuestionsData)
-  const setQuestionLabel = (id: number, label: string) => {
-    setQuestions((prev) => {
-      const newQuestions = [...prev]
-      const currentQuestion = newQuestions.find((q) => q.id === id)
-      if (currentQuestion) {
-        currentQuestion.label = label
-      }
-      return newQuestions
-    })
-  }
+
   function updateQuestion(id: number, updateField: Partial<TInputQuestion>) {
     setQuestions((prev) =>
       prev.map((q) => (q.id === id ? { ...q, ...updateField } : q))
@@ -52,24 +42,28 @@ const FormBuilderPage = () => {
       <div>
         {/* <DynamicForm /> */}
         <div className="flex flex-col gap-2">
-          {questions.map((question, index) =>
-            question.type === 'text' ? (
-              <TextInputBlock
-                key={question.id}
-                id={question.id}
-                label={question.label}
-                isRequired={question.required}
-                runningNumber={index + 1}
-              />
-            ) : question.type === 'multipleChoice' ? (
-              <MultipleChoiceBlock
-                key={question.id}
-                question={question}
-                runningNumber={index + 1}
-                updateQuestion={updateQuestion}
-              />
-            ) : null
-          )}
+          {questions.map((question, index) => {
+            if (question.type === 'text') {
+              return (
+                <TextInputBlock
+                  key={question.id}
+                  question={question as TextInputQuestion}
+                  updateQuestion={updateQuestion}
+                  runningNumber={index + 1}
+                />
+              )
+            } else if (question.type === 'multipleChoice') {
+              return (
+                <MultipleChoiceBlock
+                  key={question.id}
+                  question={question as MultipleChoiceQuestion}
+                  runningNumber={index + 1}
+                  updateQuestion={updateQuestion}
+                />
+              )
+            }
+            return null
+          })}
         </div>
       </div>
     </EditModeProvider>
