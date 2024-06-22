@@ -91,7 +91,7 @@ const TextInputBlock = ({
               {localQuestion.multipleChoose?.status ? (
                 <div className="flex flex-col gap-2">
                   {localQuestion.options?.map((option, index) => (
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2" key={index}>
                       <Checkbox id={option} />
                       <Input
                         className="group-hover:border-white"
@@ -104,7 +104,7 @@ const TextInputBlock = ({
               ) : (
                 <RadioGroup disabled>
                   {localQuestion.options?.map((option, index) => (
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2" key={index}>
                       <RadioGroupItem value={option} />
                       <Input
                         className="group-hover:border-white"
@@ -141,8 +141,8 @@ const TextInputBlock = ({
               <Label className="text-sm">{`${runningNumber}. ${localQuestion.label}`}</Label>
               {localQuestion.multipleChoose?.status ? (
                 <div className="flex flex-col gap-2">
-                  {localQuestion.options?.map((option) => (
-                    <div className="flex items-center space-x-2">
+                  {localQuestion.options?.map((option, index) => (
+                    <div className="flex items-center space-x-2" key={index}>
                       <Checkbox id={option} />
                       <Label>{`${option}`}</Label>
                     </div>
@@ -150,8 +150,8 @@ const TextInputBlock = ({
                 </div>
               ) : (
                 <RadioGroup disabled>
-                  {localQuestion.options?.map((option) => (
-                    <div className="flex items-center space-x-2">
+                  {localQuestion.options?.map((option, index) => (
+                    <div className="flex items-center space-x-2" key={index}>
                       <RadioGroupItem value={option} />
                       <Label>{`${option}`}</Label>
                     </div>
