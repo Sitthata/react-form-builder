@@ -5,19 +5,18 @@ interface Block {
 }
 
 interface TextInputQuestion {
-  id: number;
-  type: 'text';
-  label: string;
-  required: boolean;
+  id: number
+  type: 'text'
+  label: string
+  required: boolean
 }
 
 interface MultipleChoiceQuestion {
   id: number
-  type: 'text' | 'multipleChoice' | 'rating' | 'date'
+  type: 'multipleChoice'
   label: string
   required: boolean
   multipleChoose?: TMultipleChoose
-  selected?: number
   options?: string[]
 }
 

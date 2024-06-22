@@ -3,17 +3,26 @@ import { TextInputBlock } from '@/components/FormBuilder'
 import MultipleChoiceBlock from '@/components/FormBuilder/MultipleChoiceBlock'
 import { EditModeProvider } from '@/context/EditModeContext'
 import { arrayMove } from '@dnd-kit/sortable'
-import { useState } from 'react'
+import useFormQuestionStore from '@/stores/FormQuestionStore'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useEffect } from 'react'
+
 
 const inputQuestionsData: TInputQuestion[] = [
   {
-    id: 13123,
+    id: 1,
     type: 'text',
     label: 'What is your name?',
     required: true,
   },
   {
-    id: 2444,
+    id: 2,
     type: 'multipleChoice',
     label: 'What is your favorite color?',
     required: true,
@@ -21,7 +30,7 @@ const inputQuestionsData: TInputQuestion[] = [
     options: ['Red', 'Blue', 'Green', 'Yellow'],
   },
   {
-    id: 3213,
+    id: 3,
     type: 'multipleChoice',
     label: 'What is your favorite animals?',
     required: false,
@@ -31,30 +40,40 @@ const inputQuestionsData: TInputQuestion[] = [
 ]
 
 const FormBuilderPage = () => {
-  const [questions, setQuestions] =
-    useState<TInputQuestion[]>(inputQuestionsData)
+  const questionType = [{ label: 'Text', value: 'text' }, { label: 'Choice', value: 'multipleChoice' }]
+  const { questions, addQuestion, updateQuestion, setQuestions } = useFormQuestionStore()
+  useEffect(() => {
+    setQuestions(inputQuestionsData)
+  }, [setQuestions])
 
-  // useEffect(() => {
-  //   console.log(questions)
-  // }, [questions])
-
-  function updateQuestion(id: number, updateField: Partial<TInputQuestion>) {
-    setQuestions((prev) =>
-      prev.map((q) => (q.id === id ? { ...q, ...updateField } : q))
-    )
-  }
   function handleDragEnd(event: any) {
     const { active, over } = event
 
     if (active.id !== over.id) {
-      setQuestions((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id)
-        const newIndex = items.findIndex((item) => item.id === over.id)
-        console.log(oldIndex, newIndex)
-        return arrayMove(items, oldIndex, newIndex)
+      const oldIndex = questions.findIndex((item) => item.id === active.id)
+      const newIndex = questions.findIndex((item) => item.id === over.id)
+      setQuestions(arrayMove(questions, oldIndex, newIndex))
+      console.log(questions)
+    }
+  }
+
+  function handleAddQuestion(type: string) {
+    if (type === 'text') {
+      addQuestion({
+        id: questions.length + 1,
+        type: 'text',
+        label: 'Untitled Question',
+        required: false,
       })
-      console.log(questions);
-      
+    } else if (type === 'multipleChoice') {
+      addQuestion({
+        id: questions.length + 1,
+        type: 'multipleChoice',
+        label: 'Untitled Question',
+        required: false,
+        multipleChoose: { status: false },
+        options: ['Option 1', 'Option 2'],
+      })
     }
   }
   return (
@@ -84,6 +103,18 @@ const FormBuilderPage = () => {
             return null
           })}
         </DragAndDropContainer>
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button>+ Add Button</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {questionType.map((type, index) => (
+                <DropdownMenuItem onClick={() => handleAddQuestion(type.value)} key={index}>{type.label}</DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </EditModeProvider>
   )
