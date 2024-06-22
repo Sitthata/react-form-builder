@@ -69,11 +69,11 @@ const Block = ({ id, children, className, ...props }: BlockProps) => {
       {...props}
     >
       <div
-        className="drag-handle flex cursor-grab justify-center transition-opacity duration-200 opacity-0 group-hover:opacity-100"
+        className="drag-handle flex cursor-grab justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100"
         {...listeners}
         {...attributes}
       >
-        <MdDragHandle className='w-6 h-6' />
+        <MdDragHandle className="h-6 w-6" />
       </div>
       {children(isEditing)}
     </div>

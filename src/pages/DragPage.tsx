@@ -51,7 +51,6 @@ const DragPage = () => {
       setTodos((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id)
         const newIndex = items.findIndex((item) => item.id === over.id)
-        // console.log(todos, oldIndex, newIndex)
 
         return arrayMove(items, oldIndex, newIndex)
       })

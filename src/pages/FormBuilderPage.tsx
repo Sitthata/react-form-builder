@@ -2,23 +2,18 @@ import { DragAndDropContainer } from '@/components/DragAndDrop'
 import { TextInputBlock } from '@/components/FormBuilder'
 import MultipleChoiceBlock from '@/components/FormBuilder/MultipleChoiceBlock'
 import { EditModeProvider } from '@/context/EditModeContext'
-import { DndContext, DragOverlay } from '@dnd-kit/core'
-import {
-  SortableContext,
-  arrayMove,
-  rectSortingStrategy,
-} from '@dnd-kit/sortable'
+import { arrayMove } from '@dnd-kit/sortable'
 import { useState } from 'react'
 
 const inputQuestionsData: TInputQuestion[] = [
   {
-    id: 1,
+    id: 13123,
     type: 'text',
     label: 'What is your name?',
     required: true,
   },
   {
-    id: 2,
+    id: 2444,
     type: 'multipleChoice',
     label: 'What is your favorite color?',
     required: true,
@@ -26,7 +21,7 @@ const inputQuestionsData: TInputQuestion[] = [
     options: ['Red', 'Blue', 'Green', 'Yellow'],
   },
   {
-    id: 3,
+    id: 3213,
     type: 'multipleChoice',
     label: 'What is your favorite animals?',
     required: false,
@@ -38,6 +33,10 @@ const inputQuestionsData: TInputQuestion[] = [
 const FormBuilderPage = () => {
   const [questions, setQuestions] =
     useState<TInputQuestion[]>(inputQuestionsData)
+
+  // useEffect(() => {
+  //   console.log(questions)
+  // }, [questions])
 
   function updateQuestion(id: number, updateField: Partial<TInputQuestion>) {
     setQuestions((prev) =>
@@ -51,9 +50,11 @@ const FormBuilderPage = () => {
       setQuestions((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id)
         const newIndex = items.findIndex((item) => item.id === over.id)
-
+        console.log(oldIndex, newIndex)
         return arrayMove(items, oldIndex, newIndex)
       })
+      console.log(questions);
+      
     }
   }
   return (
@@ -64,7 +65,7 @@ const FormBuilderPage = () => {
             if (question.type === 'text') {
               return (
                 <TextInputBlock
-                  key={question.id}
+                  key={index}
                   question={question as TextInputQuestion}
                   updateQuestion={updateQuestion}
                   runningNumber={index + 1}
@@ -73,7 +74,7 @@ const FormBuilderPage = () => {
             } else if (question.type === 'multipleChoice') {
               return (
                 <MultipleChoiceBlock
-                  key={question.id}
+                  key={index}
                   question={question as MultipleChoiceQuestion}
                   runningNumber={index + 1}
                   updateQuestion={updateQuestion}
