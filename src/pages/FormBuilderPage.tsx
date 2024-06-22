@@ -40,7 +40,6 @@ const FormBuilderPage = () => {
   return (
     <EditModeProvider>
       <div>
-        {/* <DynamicForm /> */}
         <div className="flex flex-col gap-2">
           {questions.map((question, index) => {
             if (question.type === 'text') {
