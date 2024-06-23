@@ -1,7 +1,7 @@
 import { DragAndDropContainer } from '@/components/DragAndDrop'
 import { TextInputBlock } from '@/components/FormBuilder'
 import MultipleChoiceBlock from '@/components/FormBuilder/MultipleChoiceBlock'
-import { EditModeProvider } from '@/context/EditModeContext'
+import { useEditMode } from '@/context/EditModeContext'
 import { arrayMove } from '@dnd-kit/sortable'
 import useFormQuestionStore from '@/stores/FormQuestionStore'
 import { Button } from '@/components/ui/button'
@@ -10,41 +10,16 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useEffect } from 'react'
-
-
-const inputQuestionsData: TInputQuestion[] = [
-  {
-    id: 1,
-    type: 'text',
-    label: 'What is your name?',
-    required: true,
-  },
-  {
-    id: 2,
-    type: 'multipleChoice',
-    label: 'What is your favorite color?',
-    required: true,
-    multipleChoose: { status: false },
-    options: ['Red', 'Blue', 'Green', 'Yellow'],
-  },
-  {
-    id: 3,
-    type: 'multipleChoice',
-    label: 'What is your favorite animals?',
-    required: false,
-    multipleChoose: { status: true, type: 'noLimit', limit: 2 },
-    options: ['Lion', 'Tiger', 'Dog', 'Cat'],
-  },
-]
+} from '@/components/ui/dropdown-menu'
 
 const FormBuilderPage = () => {
-  const questionType = [{ label: 'Text', value: 'text' }, { label: 'Choice', value: 'multipleChoice' }]
-  const { questions, addQuestion, updateQuestion, setQuestions } = useFormQuestionStore()
-  useEffect(() => {
-    setQuestions(inputQuestionsData)
-  }, [setQuestions])
+  const questionType = [
+    { label: 'Text', value: 'text' },
+    { label: 'Choice', value: 'multipleChoice' },
+  ]
+  const { questions, addQuestion, updateQuestion, setQuestions } =
+    useFormQuestionStore()
+  const { setEditingId } = useEditMode()
 
   function handleDragEnd(event: any) {
     const { active, over } = event
@@ -53,8 +28,11 @@ const FormBuilderPage = () => {
       const oldIndex = questions.findIndex((item) => item.id === active.id)
       const newIndex = questions.findIndex((item) => item.id === over.id)
       setQuestions(arrayMove(questions, oldIndex, newIndex))
-      console.log(questions)
     }
+  }
+
+  function handleDragStart() {
+    setEditingId(null)
   }
 
   function handleAddQuestion(type: string) {
@@ -77,46 +55,53 @@ const FormBuilderPage = () => {
     }
   }
   return (
-    <EditModeProvider>
-      <div className="flex flex-col gap-2">
-        <DragAndDropContainer items={questions} onDragEnd={handleDragEnd}>
-          {questions.map((question, index) => {
-            if (question.type === 'text') {
-              return (
-                <TextInputBlock
-                  key={index}
-                  question={question as TextInputQuestion}
-                  updateQuestion={updateQuestion}
-                  runningNumber={index + 1}
-                />
-              )
-            } else if (question.type === 'multipleChoice') {
-              return (
-                <MultipleChoiceBlock
-                  key={index}
-                  question={question as MultipleChoiceQuestion}
-                  runningNumber={index + 1}
-                  updateQuestion={updateQuestion}
-                />
-              )
-            }
-            return null
-          })}
-        </DragAndDropContainer>
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button>+ Add Button</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {questionType.map((type, index) => (
-                <DropdownMenuItem onClick={() => handleAddQuestion(type.value)} key={index}>{type.label}</DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+    <div className="flex flex-col gap-2">
+      <DragAndDropContainer
+        items={questions}
+        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart}
+      >
+        {questions.map((question, index) => {
+          if (question.type === 'text') {
+            return (
+              <TextInputBlock
+                key={index}
+                question={question as TextInputQuestion}
+                updateQuestion={updateQuestion}
+                runningNumber={index + 1}
+              />
+            )
+          } else if (question.type === 'multipleChoice') {
+            return (
+              <MultipleChoiceBlock
+                key={index}
+                question={question as MultipleChoiceQuestion}
+                runningNumber={index + 1}
+                updateQuestion={updateQuestion}
+              />
+            )
+          }
+          return null
+        })}
+      </DragAndDropContainer>
+      <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button>+ Add Button</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {questionType.map((type, index) => (
+              <DropdownMenuItem
+                onClick={() => handleAddQuestion(type.value)}
+                key={index}
+              >
+                {type.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-    </EditModeProvider>
+    </div>
   )
 }
 

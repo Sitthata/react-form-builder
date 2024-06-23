@@ -1,6 +1,7 @@
 import App from '@/App'
 import DragPage from '@/pages/DragPage'
 import FormBuilderPage from '@/pages/FormBuilderPage'
+import FormPreviewPage from '@/pages/FormPreviewPage'
 
 import Layout from '@/pages/Layout'
 import { createBrowserRouter } from 'react-router-dom'
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: 'drag',
         element: <DragPage />,
+      },
+      {
+        path: 'preview',
+        element: <FormPreviewPage />
       }
       // TODO: Not Found page
       // {
