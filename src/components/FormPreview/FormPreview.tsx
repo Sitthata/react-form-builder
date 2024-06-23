@@ -39,7 +39,7 @@ const FormPreview = () => {
               <FormField
                 key={question.id}
                 control={form.control}
-                name={`question-${question.id}`}
+                name={question.id.toString()}
                 render={({ field }) => {
                   if (question.type === 'text') {
                     return (
