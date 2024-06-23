@@ -1,6 +1,4 @@
 import { DragAndDropContainer } from '@/components/DragAndDrop'
-import { TextInputBlock } from '@/components/FormBuilder'
-import MultipleChoiceBlock from '@/components/FormBuilder/MultipleChoiceBlock'
 import { useEditMode } from '@/context/EditModeContext'
 import { arrayMove } from '@dnd-kit/sortable'
 import useFormQuestionStore from '@/stores/FormQuestionStore'
@@ -11,13 +9,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import QuestionRenderer from '@/components/FormBuilder/QuestionRenderer'
 
 const FormBuilderPage = () => {
   const questionType = [
     { label: 'Text', value: 'text' },
     { label: 'Choice', value: 'multipleChoice' },
   ]
-  const { questions, addQuestion, updateQuestion, setQuestions } =
+  const { questions, addQuestion, setQuestions } =
     useFormQuestionStore()
   const { setEditingId } = useEditMode()
 
@@ -61,28 +60,12 @@ const FormBuilderPage = () => {
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart}
       >
-        {questions.map((question, index) => {
-          if (question.type === 'text') {
-            return (
-              <TextInputBlock
-                key={index}
-                question={question as TextInputQuestion}
-                updateQuestion={updateQuestion}
-                runningNumber={index + 1}
-              />
-            )
-          } else if (question.type === 'multipleChoice') {
-            return (
-              <MultipleChoiceBlock
-                key={index}
-                question={question as MultipleChoiceQuestion}
-                runningNumber={index + 1}
-                updateQuestion={updateQuestion}
-              />
-            )
-          }
-          return null
-        })}
+        {questions.map((question, index) => (
+          <QuestionRenderer
+            question={question}
+            index={index}
+          />
+        ))}
       </DragAndDropContainer>
       <div>
         <DropdownMenu>
