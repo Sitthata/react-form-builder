@@ -1,7 +1,7 @@
 import { DragAndDropContainer } from '@/components/DragAndDrop'
 import { TextInputBlock } from '@/components/FormBuilder'
 import MultipleChoiceBlock from '@/components/FormBuilder/MultipleChoiceBlock'
-import { EditModeProvider, useEditMode } from '@/context/EditModeContext'
+import { useEditMode } from '@/context/EditModeContext'
 import { arrayMove } from '@dnd-kit/sortable'
 import useFormQuestionStore from '@/stores/FormQuestionStore'
 import { Button } from '@/components/ui/button'
@@ -11,32 +11,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useEffect } from 'react'
-
-const inputQuestionsData: TInputQuestion[] = [
-  {
-    id: 1,
-    type: 'text',
-    label: 'What is your name?',
-    required: true,
-  },
-  {
-    id: 2,
-    type: 'multipleChoice',
-    label: 'What is your favorite color?',
-    required: true,
-    multipleChoose: { status: false },
-    options: ['Red', 'Blue', 'Green', 'Yellow'],
-  },
-  {
-    id: 3,
-    type: 'multipleChoice',
-    label: 'What is your favorite animals?',
-    required: false,
-    multipleChoose: { status: true, type: 'noLimit', limit: 2 },
-    options: ['Lion', 'Tiger', 'Dog', 'Cat'],
-  },
-]
 
 const FormBuilderPage = () => {
   const questionType = [
@@ -46,9 +20,6 @@ const FormBuilderPage = () => {
   const { questions, addQuestion, updateQuestion, setQuestions } =
     useFormQuestionStore()
   const { setEditingId } = useEditMode()
-  useEffect(() => {
-    setQuestions(inputQuestionsData)
-  }, [setQuestions])
 
   function handleDragEnd(event: any) {
     const { active, over } = event

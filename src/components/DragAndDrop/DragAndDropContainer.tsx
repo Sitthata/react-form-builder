@@ -1,6 +1,5 @@
 import {
   DndContext,
-  DragOverlay,
   MouseSensor,
   PointerSensor,
   TouchSensor,
@@ -8,7 +7,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
-import { SortableContext, rectSortingStrategy, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 type DragAndDropContainerProps = {
   items: any[]

@@ -47,7 +47,7 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
     setQuestions: (questions) => {
       arrayManager.setArray(questions)
       refresh()
-    }
+    },
   }
 })
 
