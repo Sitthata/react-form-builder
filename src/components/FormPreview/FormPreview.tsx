@@ -35,15 +35,28 @@ const FormPreview = () => {
                 key={question.id}
                 control={form.control}
                 name={question.id.toString()}
-                render={({ field }) => {
+                render={({ field, fieldState }) => {
                   return (
-                    Component && <Component question={question} field={field} runningNumber={index + 1} />
+                    Component && (
+                      <Component
+                        question={question}
+                        field={field}
+                        fieldState={fieldState}
+                        runningNumber={index + 1}
+                      />
+                    )
                   )
+                }}
+                rules={{
+                  required: {
+                    value: question.required,
+                    message: 'This field is required',
+                  },
                 }}
               />
             )
           })}
-          <div className='flex gap-2'>
+          <div className="flex gap-2">
             <Button type="submit">Submit</Button>
             <Button variant="outline" asChild>
               <Link to="/editor">Editor</Link>

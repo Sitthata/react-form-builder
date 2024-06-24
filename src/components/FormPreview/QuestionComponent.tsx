@@ -5,13 +5,18 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '../ui/input'
-import { ControllerRenderProps, FieldValues } from 'react-hook-form'
+import {
+  ControllerFieldState,
+  ControllerRenderProps,
+  FieldValues,
+} from 'react-hook-form'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 
 type QuestionComponentMap = {
   [key: string]: React.FC<{
     question: TInputQuestion
     field: ControllerRenderProps<FieldValues, string>
+    fieldState: ControllerFieldState
     runningNumber?: number
   }>
 }
