@@ -1,24 +1,18 @@
 import useFormQuestionStore from '@/stores/FormQuestionStore'
 import { useForm } from 'react-hook-form'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Form, FormField } from '@/components/ui/form'
 import { toast } from 'sonner'
 import { Button } from '../ui/button'
 import { DevTool } from '@hookform/devtools'
+import questionComponents from './QuestionComponent'
+import { Link } from 'react-router-dom'
 
 const FormPreview = () => {
   const { questions } = useFormQuestionStore()
   const form = useForm()
   function onSubmit(data: any) {
+    console.log(questions)
+
     toast('Form submitted', {
       description: (
         <div>
@@ -34,56 +28,27 @@ const FormPreview = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-5"
         >
-          {questions.map((question) => {
+          {questions.map((question, index) => {
+            const Component = questionComponents[question.type]
             return (
               <FormField
                 key={question.id}
                 control={form.control}
                 name={question.id.toString()}
                 render={({ field }) => {
-                  if (question.type === 'text') {
-                    return (
-                      <FormItem>
-                        <FormLabel>{question.label}</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your question" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          This is your public display name.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )
-                  } else {
-                    return (
-                      <FormItem>
-                        <FormLabel>{question.label}</FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            {question.options?.map((option) => (
-                              <FormItem className="flex items-center space-x-3 space-y-0">
-                                <FormControl>
-                                  <RadioGroupItem value={option} />
-                                </FormControl>
-                                <FormLabel className="font-normal">
-                                  {option}
-                                </FormLabel>
-                              </FormItem>
-                            ))}
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )
-                  }
+                  return (
+                    Component && <Component question={question} field={field} runningNumber={index + 1} />
+                  )
                 }}
               />
             )
           })}
-          <Button type="submit">Submit</Button>
+          <div className='flex gap-2'>
+            <Button type="submit">Submit</Button>
+            <Button variant="outline" asChild>
+              <Link to="/editor">Editor</Link>
+            </Button>
+          </div>
         </form>
       </Form>
       <DevTool control={form.control} />

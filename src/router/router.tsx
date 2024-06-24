@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
-        path: 'design',
+        path: 'editor',
         element: <FormBuilderPage />,
       },
       {
