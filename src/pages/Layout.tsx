@@ -3,14 +3,18 @@ import Wrapper from '@/components/Wrapper'
 import Navbar from '@/components/navigation/Navbar'
 import { EditModeProvider } from '@/context/EditModeContext'
 import useFormQuestionStore from '@/stores/FormQuestionStore'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Outlet } from 'react-router'
 import { Toaster } from '@/components/ui/sonner'
 
 const Layout = () => {
   const { setQuestions } = useFormQuestionStore()
+  const isInitalized = useRef(false)
   useEffect(() => {
-    setQuestions(inputData)
+    if (!isInitalized.current) {
+      setQuestions(inputData)
+      isInitalized.current = true
+    }
   }, [setQuestions])
   return (
     <div>

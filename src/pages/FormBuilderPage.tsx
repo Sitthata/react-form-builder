@@ -10,14 +10,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import QuestionRenderer from '@/components/FormBuilder/QuestionRenderer'
+import { Link } from 'react-router-dom'
 
 const FormBuilderPage = () => {
   const questionType = [
     { label: 'Text', value: 'text' },
     { label: 'Choice', value: 'multipleChoice' },
   ]
-  const { questions, addQuestion, setQuestions } =
-    useFormQuestionStore()
+  const { questions, addQuestion, setQuestions } = useFormQuestionStore()
   const { setEditingId } = useEditMode()
 
   function handleDragEnd(event: any) {
@@ -61,13 +61,10 @@ const FormBuilderPage = () => {
         onDragStart={handleDragStart}
       >
         {questions.map((question, index) => (
-          <QuestionRenderer
-            question={question}
-            index={index}
-          />
+          <QuestionRenderer question={question} index={index} />
         ))}
       </DragAndDropContainer>
-      <div>
+      <div className="flex gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button>+ Add Button</Button>
@@ -83,6 +80,9 @@ const FormBuilderPage = () => {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+        <Button variant="outline" asChild>
+          <Link to="/preview">Preview</Link>
+        </Button>
       </div>
     </div>
   )
