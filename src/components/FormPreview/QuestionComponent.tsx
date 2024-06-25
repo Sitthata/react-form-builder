@@ -11,6 +11,7 @@ import {
   FieldValues,
 } from 'react-hook-form'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
+import CheckBox from './CheckBox'
 
 type QuestionComponentMap = {
   [key: string]: React.FC<{
@@ -33,22 +34,38 @@ const questionComponents: QuestionComponentMap = {
   ),
   multipleChoice: ({ question, field, runningNumber }) => {
     const multipleChoiceQuestion = question as MultipleChoiceQuestion
+    const fieldValue = Array.isArray(field.value) ? field.value : []
     return (
       <FormItem>
         <FormLabel>{`${runningNumber}. ${multipleChoiceQuestion.label}`}</FormLabel>
         <FormControl>
           <RadioGroup onValueChange={field.onChange} defaultValue={field.value}>
-            {multipleChoiceQuestion.options?.map((option, index) => (
-              <FormItem
-                key={index}
-                className="flex items-center space-x-3 space-y-0"
-              >
-                <FormControl>
-                  <RadioGroupItem value={option} />
-                </FormControl>
-                <FormLabel className="font-normal">{option}</FormLabel>
-              </FormItem>
-            ))}
+            {multipleChoiceQuestion.multipleChoose.status
+              ? multipleChoiceQuestion.options?.map((option) => (
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <CheckBox
+                        option={option}
+                        field={field}
+                        fieldValue={fieldValue}
+                      />
+                    </FormControl>
+                    <FormLabel className="text-sm font-normal">
+                      {option}
+                    </FormLabel>
+                  </FormItem>
+                ))
+              : multipleChoiceQuestion.options?.map((option, index) => (
+                  <FormItem
+                    key={index}
+                    className="flex items-center space-x-3 space-y-0"
+                  >
+                    <FormControl>
+                      <RadioGroupItem value={option} />
+                    </FormControl>
+                    <FormLabel className="font-normal">{option}</FormLabel>
+                  </FormItem>
+                ))}
           </RadioGroup>
         </FormControl>
         <FormMessage />

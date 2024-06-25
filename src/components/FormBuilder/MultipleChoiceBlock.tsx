@@ -7,6 +7,7 @@ import { Switch } from '@/components/ui/switch'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { RiDeleteBin5Line } from 'react-icons/ri'
 
 type TextInputBlockProps = {
   question: MultipleChoiceQuestion
@@ -74,6 +75,14 @@ const TextInputBlock = ({
     })
   }
 
+  function handleDeleteOption(index: number) {
+    if (!localQuestion.options) return
+    setLocalQuestion({
+      ...localQuestion,
+      options: localQuestion.options.filter((_, i) => i !== index),
+    })
+  }
+
   return (
     <Block id={localQuestion.id}>
       {(isEditing) => (
@@ -93,11 +102,20 @@ const TextInputBlock = ({
                   {localQuestion.options?.map((option, index) => (
                     <div className="flex items-center space-x-2" key={index}>
                       <Checkbox id={option} />
-                      <Input
-                        className="group-hover:border-white"
-                        value={option}
-                        onChange={(e) => handleOptionsChange(index, e)}
-                      />
+                      <div className="flex w-3/4 gap-2">
+                        <Input
+                          className="w-full group-hover:border-white"
+                          value={option}
+                          onChange={(e) => handleOptionsChange(index, e)}
+                        />
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          onClick={() => handleDeleteOption(index)}
+                        >
+                          <RiDeleteBin5Line />
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -106,11 +124,16 @@ const TextInputBlock = ({
                   {localQuestion.options?.map((option, index) => (
                     <div className="flex items-center space-x-2" key={index}>
                       <RadioGroupItem value={option} />
-                      <Input
-                        className="group-hover:border-white"
-                        value={option}
-                        onChange={(e) => handleOptionsChange(index, e)}
-                      />
+                      <div className="flex w-3/4 gap-2">
+                        <Input
+                          className="w-full group-hover:border-white"
+                          value={option}
+                          onChange={(e) => handleOptionsChange(index, e)}
+                        />
+                        <Button size="icon" variant="outline">
+                          <RiDeleteBin5Line />
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </RadioGroup>

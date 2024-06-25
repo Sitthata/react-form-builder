@@ -16,7 +16,7 @@ interface MultipleChoiceQuestion {
   type: 'multipleChoice'
   label: string
   required: boolean
-  multipleChoose?: TMultipleChoose
+  multipleChoose: TMultipleChoose
   options?: string[]
 }
 
