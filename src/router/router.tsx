@@ -1,19 +1,19 @@
 import App from '@/App'
+import { FormGallery } from '@/components/FormGallery'
 import DragPage from '@/pages/DragPage'
 import FormBuilderPage from '@/pages/FormBuilderPage'
 import FormPreviewPage from '@/pages/FormPreviewPage'
 
-import Layout from '@/pages/Layout'
 import { createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <App />,
     children: [
       {
         path: '',
-        element: <App />,
+        element: <FormGallery />,
       },
       {
         path: 'editor',
@@ -25,8 +25,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'preview',
-        element: <FormPreviewPage />
-      }
+        element: <FormPreviewPage />,
+      },
       // TODO: Not Found page
       // {
       //   path: '*',

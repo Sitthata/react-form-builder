@@ -1,12 +1,34 @@
 import './styles/index.css'
-import { FormGallery } from './components/FormGallery'
+import Wrapper from '@/components/Wrapper'
+import Navbar from '@/components/navigation/Navbar'
+import { EditModeProvider } from '@/context/EditModeContext'
+import useFormQuestionStore from '@/stores/FormQuestionStore'
 import { useEffect } from 'react'
-import { inputData } from './assets/data'
+import { Outlet } from 'react-router'
+import { Toaster } from '@/components/ui/sonner'
+import { useQuery } from '@tanstack/react-query'
+import { fetchQuestions } from './api/questionsService'
 
 function App() {
+  const { setQuestions } = useFormQuestionStore()
+  const { data, isSuccess } = useQuery({
+    queryKey: ['questions'],
+    queryFn: fetchQuestions,
+  })
+  useEffect(() => {
+    if (isSuccess) {
+      setQuestions(data)
+    }
+  }, [data, setQuestions, isSuccess])
   return (
     <>
-      <FormGallery />
+      <Navbar />
+      <EditModeProvider>
+        <Wrapper className="max-w-[1200px]">
+          <Outlet />
+        </Wrapper>
+      </EditModeProvider>
+      <Toaster />
     </>
   )
 }
