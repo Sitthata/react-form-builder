@@ -34,7 +34,6 @@ const questionComponents: QuestionComponentMap = {
   ),
   multipleChoice: ({ question, field, runningNumber }) => {
     const multipleChoiceQuestion = question as MultipleChoiceQuestion
-    const fieldValue = Array.isArray(field.value) ? field.value : []
     return (
       <FormItem>
         <FormLabel>{`${runningNumber}. ${multipleChoiceQuestion.label}`}</FormLabel>
@@ -44,11 +43,7 @@ const questionComponents: QuestionComponentMap = {
               ? multipleChoiceQuestion.options?.map((option) => (
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <CheckBox
-                        option={option}
-                        field={field}
-                        fieldValue={fieldValue}
-                      />
+                      <CheckBox option={option} field={field} />
                     </FormControl>
                     <FormLabel className="text-sm font-normal">
                       {option}

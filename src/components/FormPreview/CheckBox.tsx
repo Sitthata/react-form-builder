@@ -4,10 +4,10 @@ import { ControllerRenderProps, FieldValues } from 'react-hook-form'
 type CheckBoxProps = {
   option: string
   field: ControllerRenderProps<FieldValues, string>
-  fieldValue: string[]
 }
 
-const CheckBox = ({ option, field, fieldValue }: CheckBoxProps) => {
+const CheckBox = ({ option, field }: CheckBoxProps) => {
+  const fieldValue = Array.isArray(field.value) ? field.value : []
   return (
     <Checkbox
       checked={field.value?.includes(option)}
