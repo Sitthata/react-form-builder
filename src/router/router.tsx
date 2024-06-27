@@ -3,8 +3,11 @@ import { FormGallery } from '@/components/FormGallery'
 import DragPage from '@/pages/DragPage'
 import FormBuilderPage from '@/pages/FormBuilderPage'
 import FormPreviewPage from '@/pages/FormPreviewPage'
+import HomePage from '@/pages/HomePage'
 
 import { createBrowserRouter } from 'react-router-dom'
+import ProtectedRoute from './ProtectedRoute'
+import LoginPage from '@/pages/LoginPage'
 
 const router = createBrowserRouter([
   {
@@ -13,11 +16,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <FormGallery />,
+        element: <HomePage />,
+      },
+      {
+        path: 'login',
+        element: <LoginPage />,
+      },
+      {
+        path: 'dashboard',
+        element: <ProtectedRoute element={<FormGallery />} />,
       },
       {
         path: 'editor',
-        element: <FormBuilderPage />,
+        element: <ProtectedRoute element={<FormBuilderPage />} />,
       },
       {
         path: 'drag',
