@@ -1,7 +1,4 @@
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, redirect, useNavigate } from 'react-router-dom'
 import {
   Card,
   CardContent,
@@ -9,10 +6,73 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { useAuth } from '@/auth/AuthContext'
+import { toast } from 'sonner'
+import { DevTool } from '@hookform/devtools'
+
+const formSchema = z.object({
+  email: z.string().email({
+    message: 'Invalid email',
+  }),
+  password: z.string().min(8, {
+    message: 'Password must be at least 8 characters long',
+  }),
+})
+
+type formDataType = {
+  label: string
+  name: 'email' | 'password'
+  placeHolder: string
+  type: string
+}
 
 const LoginPage = () => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  })
+  const { login } = useAuth()
+  const navigate = useNavigate()
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      await login(values.email, values.password)
+      toast.success('Login successful')
+      return navigate('/dashboard')
+    } catch (error: any) {
+      toast.error('Login failed', {
+        description: error.message,
+      })
+    }
+  }
+  const formData: formDataType[] = [
+    {
+      label: 'Email',
+      name: 'email',
+      placeHolder: 'example@email.com',
+      type: 'email',
+    },
+    {
+      label: 'Password',
+      name: 'password',
+      placeHolder: 'Your Password',
+      type: 'password',
+    },
+  ]
   return (
-    <section className='flex items-center justify-center min-h-[80vh]'>
+    <section className="flex min-h-[80vh] items-center justify-center">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
@@ -21,32 +81,35 @@ const LoginPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link to="#" className="ml-auto inline-block text-sm underline">
-                  Forgot your password?
-                </Link>
-              </div>
-              <Input id="password" type="password" required />
-            </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-            <Button variant="outline" className="w-full">
-              Login with Google
-            </Button>
-          </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              {formData.map((data, index) => (
+                <FormField
+                  key={index}
+                  control={form.control}
+                  name={data.name}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{data.label}</FormLabel>
+                      <FormControl>
+                        <Input
+                          type={data.type}
+                          placeholder={data.placeHolder}
+                          {...field}
+                          value={field.value || ''}
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+              <Button type="submit" className="mt-4 w-full">
+                Login
+              </Button>
+            </form>
+          </Form>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{' '}
             <Link to="#" className="underline">
@@ -54,6 +117,7 @@ const LoginPage = () => {
             </Link>
           </div>
         </CardContent>
+        <DevTool control={form.control} />
       </Card>
     </section>
   )
