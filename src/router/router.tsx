@@ -4,6 +4,7 @@ import DragPage from '@/pages/DragPage'
 import FormBuilderPage from '@/pages/FormBuilderPage'
 import FormPreviewPage from '@/pages/FormPreviewPage'
 import HomePage from '@/pages/HomePage'
+import SignUpPage from '@/pages/SignUpPage'
 
 import { createBrowserRouter } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <LoginPage />,
+      },
+      {
+        path: 'signup',
+        element: <SignUpPage />
       },
       {
         path: 'dashboard',

@@ -23,39 +23,41 @@ import { useAuth } from '@/auth/AuthContext'
 import { toast } from 'sonner'
 import { DevTool } from '@hookform/devtools'
 
-const formSchema = z.object({
-  email: z.string().email({
-    message: 'Invalid email',
-  }),
-  password: z.string().min(8, {
-    message: 'Password must be at least 8 characters long',
-  }),
-})
+const formSchema = z
+  .object({
+    email: z.string().email({
+      message: 'Invalid email',
+    }),
+    password: z.string().min(8, {
+      message: 'Password must be at least 8 characters long',
+    }),
+    password_confirm: z.string().min(8, {
+      message: 'Password must be at least 8 characters long',
+    }),
+  })
+  .refine((data) => data.password === data.password_confirm, {
+    message: 'Passwords do not match',
+    path: ['password_confirm'],
+  })
+
+type formValidationType = z.infer<typeof formSchema>
 
 type formDataType = {
   label: string
-  name: 'email' | 'password'
+  name: 'email' | 'password' | 'password_confirm'
   placeHolder: string
   type: string
 }
 
 const LoginPage = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<formValidationType>({
     resolver: zodResolver(formSchema),
   })
-  const { login } = useAuth()
-  const navigate = useNavigate()
+  //   const {  } = useAuth()
+  // const navigate = useNavigate()
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      await login(values.email, values.password)
-      toast.success('Login successful')
-      return navigate('/dashboard')
-    } catch (error: any) {
-      toast.error('Login failed', {
-        description: error.message,
-      })
-    }
+  async function onSubmit(values: formValidationType) {
+    toast(<code>{JSON.stringify(values, null, 2)}</code>)
   }
   const formData: formDataType[] = [
     {
@@ -70,19 +72,25 @@ const LoginPage = () => {
       placeHolder: 'Your Password',
       type: 'password',
     },
+    {
+      label: 'Confirm Password',
+      name: 'password_confirm',
+      placeHolder: 'Confirm Password',
+      type: 'password',
+    },
   ]
   return (
     <section className="flex min-h-[80vh] items-center justify-center">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Sign Up</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Let's get started! Create an account to access all the features
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-3'>
               {formData.map((data, index) => (
                 <FormField
                   key={index}
@@ -106,14 +114,14 @@ const LoginPage = () => {
                 />
               ))}
               <Button type="submit" className="mt-4 w-full">
-                Login
+                Sign Up
               </Button>
             </form>
           </Form>
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{' '}
-            <Link to="/signup" className="underline">
-              Sign up
+            Already have an account?{' '}
+            <Link to="/login" className="underline">
+              Login
             </Link>
           </div>
         </CardContent>
