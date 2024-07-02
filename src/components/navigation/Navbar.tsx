@@ -29,9 +29,13 @@ const Navbar = () => {
           <Button asChild variant="outline">
             <Link to="login">Login</Link>
           </Button>
-          <Button>Get Started</Button>
+          <Button>
+            <Link to="signup">Get Started</Link>
+          </Button>
+          <ModeToggle />
         </div>
       </div>
+
       <div
         className={cn(
           { hidden: !isLogin, flex: isLogin },
