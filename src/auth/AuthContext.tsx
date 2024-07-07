@@ -21,7 +21,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const login = async (email: string, password: string) => {
     const api = createAxiosInstance()
     try {
-      const { data } = await api.post('/login', { email, password })
+      const { data } = await api.post('/auth/login', { email, password })
       localStorage.setItem('token', data.accessToken)
       setToken(data.accessToken)
     } catch (error) {

@@ -24,9 +24,7 @@ import { toast } from 'sonner'
 import { DevTool } from '@hookform/devtools'
 
 const formSchema = z.object({
-  email: z.string().email({
-    message: 'Invalid email',
-  }),
+  email: z.string().email(),
   password: z.string()
 })
 
@@ -60,7 +58,7 @@ const LoginPage = () => {
       label: 'Email',
       name: 'email',
       placeHolder: 'example@email.com',
-      type: 'email',
+      type: 'text',
     },
     {
       label: 'Password',

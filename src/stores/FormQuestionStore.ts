@@ -28,9 +28,18 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
         .getArray()
         .findIndex((question) => question.id === id)
       if (index !== -1) {
+        const existingQuestion = arrayManager.getArray()[index]
+        if (
+          existingQuestion.type === 'multipleChoice' &&
+          updatedQuestion.type &&
+          updatedQuestion.type !== 'multipleChoice'
+        ) {
+          throw new Error('Type mismatch')
+        }
         arrayManager.update(index, {
-          ...arrayManager.getArray()[index],
+          ...existingQuestion,
           ...updatedQuestion,
+          type: existingQuestion.type,
         })
         refresh()
       }

@@ -12,6 +12,8 @@ import { Label } from '@/components/ui/label'
 import { IoMdDocument } from 'react-icons/io'
 import { Button } from '../ui/button'
 import { useForm } from 'react-hook-form'
+import { usePostForm } from '@/hooks/useFetchForms'
+import { toast } from 'sonner'
 
 type TFormData = {
   name: string
@@ -22,22 +24,38 @@ const AddNewForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<TFormData>()
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
-    console.log(errors)
-  })
+  const { mutate, error } = usePostForm()
+
+  const onSubmit = (data: any) => {
+    mutate(data, {
+      onSuccess: () => {
+        toast.success('Form created successfully', {
+          description: (
+            <div>
+              <code>{JSON.stringify(data, null, 2)}</code>
+            </div>
+          ),
+        })
+      },
+      onError: () => {
+        toast.error('Failed to create form')
+        console.log(error?.message)
+      },
+    })
+  }
 
   return (
     <Dialog>
       <DialogTrigger>
-        <div className="flex min-h-[188px] h-full cursor-pointer flex-col items-center justify-center gap-2 rounded-lg shadow-md border border-1 border-accent">
+        <div className="border-1 flex h-full min-h-[188px] cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-accent shadow-md">
           <IoMdDocument />
           Create New Form
         </div>
       </DialogTrigger>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create form</DialogTitle>
@@ -45,7 +63,7 @@ const AddNewForm = () => {
             Create a new form to start collecting responses
           </DialogDescription>
         </DialogHeader>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Name</Label>
@@ -58,16 +76,16 @@ const AddNewForm = () => {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Description</Label>
               <Input
-                id="name"
+                id="description"
                 placeholder="Description"
                 {...register('description', { max: 150 })}
               />
             </div>
           </div>
+          <DialogFooter>
+            <Button type="submit">Create</Button>
+          </DialogFooter>
         </form>
-        <DialogFooter>
-          <Button onClick={onSubmit}>Create Form</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

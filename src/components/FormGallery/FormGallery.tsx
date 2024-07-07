@@ -3,10 +3,9 @@ import AddNewForm from './AddNewForm'
 import FormCard from './FormCard'
 
 export type Form = {
-  id: string
   title: string
   createdAt: string
-  status: 'Draft' | 'Published'
+  status: 'Draft' | 'Published' 
   description: string
 }
 
