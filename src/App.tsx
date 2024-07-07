@@ -11,15 +11,15 @@ import { fetchQuestions } from './api/questionsService'
 
 function App() {
   const { setQuestions } = useFormQuestionStore()
-  // const { data, isSuccess } = useQuery({
-  //   queryKey: ['questions'],
-  //   queryFn: fetchQuestions,
-  // })
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     setQuestions(data)
-  //   }
-  // }, [data, setQuestions, isSuccess])
+  const { data, isSuccess } = useQuery({
+    queryKey: ['questions'],
+    queryFn: fetchQuestions,
+  })
+  useEffect(() => {
+    if (isSuccess) {
+      setQuestions(data)
+    }
+  }, [data, setQuestions, isSuccess])
   return (
     <>
       <Navbar />
