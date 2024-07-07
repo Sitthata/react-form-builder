@@ -25,6 +25,9 @@ import { DevTool } from '@hookform/devtools'
 
 const formSchema = z
   .object({
+    username: z.string().min(3, {
+      message: 'Username must be at least 3 characters long',
+    }),
     email: z.string().email({
       message: 'Invalid email',
     }),
@@ -44,7 +47,7 @@ type formValidationType = z.infer<typeof formSchema>
 
 type formDataType = {
   label: string
-  name: 'email' | 'password' | 'password_confirm'
+  name: 'email' | 'password' | 'password_confirm' | 'username'
   placeHolder: string
   type: string
 }
@@ -60,6 +63,12 @@ const LoginPage = () => {
     toast(<code>{JSON.stringify(values, null, 2)}</code>)
   }
   const formData: formDataType[] = [
+    {
+      label: 'Username',
+      name: 'username',
+      placeHolder: 'Your Name',
+      type: 'text',
+    },
     {
       label: 'Email',
       name: 'email',
