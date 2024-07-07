@@ -33,7 +33,7 @@ const AddNewForm = () => {
   return (
     <Dialog>
       <DialogTrigger>
-        <div className="flex min-h-[188px] cursor-pointer flex-col items-center justify-center gap-2 rounded-lg shadow-md outline outline-1 outline-accent">
+        <div className="flex min-h-[188px] h-full cursor-pointer flex-col items-center justify-center gap-2 rounded-lg shadow-md border border-1 border-accent">
           <IoMdDocument />
           Create New Form
         </div>

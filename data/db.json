@@ -1,4 +1,36 @@
 {
+  "forms": [
+    {
+      "title": "Customer Satisfaction Survey",
+      "time": "2024-07-01 14:30",
+      "status": "Published",
+      "description": "A survey to gauge customer satisfaction with our new product line."
+    },
+    {
+      "title": "Employee Feedback Form",
+      "time": "2024-06-25 09:00",
+      "status": "Draft",
+      "description": "Gathering feedback from employees on workplace environment and policies."
+    },
+    {
+      "title": "Website Usability Study",
+      "time": "2024-07-03 16:00",
+      "status": "Published",
+      "description": "An in-depth study to understand the usability of our website among different user groups."
+    },
+    {
+      "title": "Event Planning Questionnaire",
+      "time": "2024-06-20 12:00",
+      "status": "Draft",
+      "description": ""
+    },
+    {
+      "title": "Product Feature Request",
+      "time": "2024-06-30 10:00",
+      "status": "Published",
+      "description": "Collecting suggestions for new features from our product users."
+    }
+  ],
   "questions": [
     {
       "id": 1,

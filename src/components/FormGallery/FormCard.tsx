@@ -8,27 +8,39 @@ import {
 } from '@/components/ui/card'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
+import { cn } from '@/lib/utils'
 
-const FormCard = () => {
+type FormCardProps = {
+  title: string
+  time: string
+  status: 'Draft' | 'Published'
+  description: string
+}
+
+const FormCard = ({ title, time, status, description }: FormCardProps) => {
   return (
-    <Card>
+    <Card className='flex flex-col h-full rounded-lg'>
       <CardHeader>
         <div className="flex flex-col justify-between gap-2 md:flex-row">
           <div>
-            <CardTitle>React Senior Survey</CardTitle>
-            <CardDescription>8 hours agos</CardDescription>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription>{time}</CardDescription>
           </div>
           <div>
-            <Badge className="p-1">Published</Badge>
+            <Badge className="p-1">{status}</Badge>
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-        <p className="text-sm font-light italic text-accent-foreground">
-          No Description Provided
+      <CardContent className='flex-grow'>
+        <p
+          className={cn('text-sm font-light text-accent-foreground', {
+            italic: !description,
+          })}
+        >
+          {description ? description : 'No description provided'}
         </p>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="mt-auto">
         <Button className="w-full">View Survey</Button>
       </CardFooter>
     </Card>

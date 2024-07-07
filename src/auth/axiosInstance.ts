@@ -35,7 +35,7 @@ const createAxiosInstance = () => {
         originalRequest._isRetry = true
         try {
           const response = await axios.post(
-            'http://localhost:3000/refresh',
+            `${BASE_URL}/refresh`,
             {
               token,
             },
