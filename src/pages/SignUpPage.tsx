@@ -56,10 +56,12 @@ const LoginPage = () => {
   const form = useForm<formValidationType>({
     resolver: zodResolver(formSchema),
   })
-  //   const {  } = useAuth()
-  // const navigate = useNavigate()
+  const { signup } = useAuth()
+  const navigate = useNavigate()
 
   async function onSubmit(values: formValidationType) {
+    await signup(values.username, values.email, values.password)
+    navigate('/login')
     toast(<code>{JSON.stringify(values, null, 2)}</code>)
   }
   const formData: formDataType[] = [
@@ -99,7 +101,10 @@ const LoginPage = () => {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-3'>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-col gap-3"
+            >
               {formData.map((data, index) => (
                 <FormField
                   key={index}

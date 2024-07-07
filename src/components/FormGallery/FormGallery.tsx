@@ -5,7 +5,7 @@ import FormCard from './FormCard'
 export type Form = {
   title: string
   createdAt: string
-  status: 'Draft' | 'Published' 
+  status: 'Draft' | 'Published'
   description: string
 }
 
@@ -15,7 +15,7 @@ const FormGallery = () => {
     <div className="mt-5 grid grid-cols-1 gap-2 md:grid-cols-3">
       <AddNewForm />
       {isLoading && <p>Loading...</p>}
-      {isError && <p>Something went wrong</p>}
+      {isError && !data?.length && <p>Something went wrong</p>}
       {data?.map((form, index) => (
         <FormCard
           key={index}

@@ -19,6 +19,6 @@ export const signup = async (
   email: string,
   password: string
 ) => {
-  const response = await api.post('/auth/signup', { username, email, password })
+  const response = await api.post('/auth/register', { username, password })
   return response.data as AuthResponse
 }
