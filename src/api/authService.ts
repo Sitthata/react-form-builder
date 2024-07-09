@@ -9,8 +9,10 @@ type AuthResponse = {
   tokenType: string
 }
 
+const URL = import.meta.env.VITE_ENV === 'dev' ? '' : '/auth'
+
 export const login = async (email: string, password: string) => {
-  const response = await api.post('/auth/login', { username: email, password })
+  const response = await api.post(`${URL}/login`, { email, password })
   return response.data as AuthResponse
 }
 
@@ -19,6 +21,6 @@ export const signup = async (
   email: string,
   password: string
 ) => {
-  const response = await api.post('/auth/register', { username, password })
+  const response = await api.post(`${URL}/register`, { username, password })
   return response.data as AuthResponse
 }

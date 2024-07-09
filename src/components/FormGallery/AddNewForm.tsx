@@ -14,9 +14,11 @@ import { Button } from '../ui/button'
 import { useForm } from 'react-hook-form'
 import { usePostForm } from '@/hooks/useFetchForms'
 import { toast } from 'sonner'
+import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 
 type TFormData = {
-  name: string
+  title: string
   description: string
 }
 
@@ -28,10 +30,16 @@ const AddNewForm = () => {
   } = useForm<TFormData>()
 
   const { mutate, error } = usePostForm()
+  const queryClient = useQueryClient()
+  const [showDialog, setShowDialog] = useState(false)
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: TFormData) => {
     mutate(data, {
       onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['forms'],
+        })
+        setShowDialog(false)
         toast.success('Form created successfully', {
           description: (
             <div>
@@ -48,7 +56,7 @@ const AddNewForm = () => {
   }
 
   return (
-    <Dialog>
+    <Dialog open={showDialog} onOpenChange={setShowDialog}>
       <DialogTrigger>
         <div className="border-1 flex h-full min-h-[188px] cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-accent shadow-md">
           <IoMdDocument />
@@ -70,7 +78,7 @@ const AddNewForm = () => {
               <Input
                 id="name"
                 placeholder="Form name"
-                {...register('name', { required: true })}
+                {...register('title', { required: true })}
               />
             </div>
             <div className="flex flex-col space-y-1.5">

@@ -12,6 +12,7 @@ const FormPreview = () => {
   const form = useForm()
   function onSubmit(data: any) {
     console.log(questions)
+    console.log(data)
 
     toast('Form submitted', {
       description: (
