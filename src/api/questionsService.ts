@@ -17,3 +17,8 @@ export const updateQuestion = async (id: string, question: TInputQuestion) => {
   const response = await api.put(`/questions/${id}`, question)
   return response.data
 }
+
+export const addQuestion = async (question: TInputQuestion) => {
+  const response = await api.post(`/questions`, question)
+  return response.data
+}

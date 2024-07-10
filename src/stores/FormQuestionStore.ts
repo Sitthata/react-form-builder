@@ -1,4 +1,6 @@
+import { addQuestion, updateQuestion } from '@/api/questionsService'
 import { createArrayManager } from '@/lib/utils'
+import { debounce } from 'lodash'
 import { create } from 'zustand'
 
 interface FormQuestionState {
@@ -10,16 +12,33 @@ interface FormQuestionState {
 }
 const useFormQuestionStore = create<FormQuestionState>((set) => {
   const arrayManager = createArrayManager<TInputQuestion>([])
+  const debouncedSaveMap = new Map()
   function refresh() {
     set({ questions: arrayManager.getArray() })
+  }
+  function getDebouncedSave(id: number) {
+    if (!debouncedSaveMap.has(id)) {
+      const debouncedSave = debounce(async (question) => {
+        try {
+          await updateQuestion(question.id, question)
+          console.log('Saved question:', question)
+        } catch (error) {
+          console.error('Error saving question:', error)
+        }
+      }, 2000)
+
+      debouncedSaveMap.set(id, debouncedSave)
+    }
+    return debouncedSaveMap.get(id)
   }
   return {
     // State
     questions: arrayManager.getArray(),
 
     // Actions
-    addQuestion: (question) => {
+    addQuestion: async (question) => {
       arrayManager.push(question)
+      await addQuestion(question)
       refresh()
     },
 
@@ -42,6 +61,7 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
           type: existingQuestion.type,
         })
         refresh()
+        getDebouncedSave(id)(arrayManager.getArray()[index])
       }
     },
 

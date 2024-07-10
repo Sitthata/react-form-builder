@@ -8,14 +8,14 @@ type QuestionRendererProps = {
 };
 
 const QuestionRenderer = ({ question, index }: QuestionRendererProps) => {
-  const { updateQuestion } = useFormQuestionStore()
+  const { updateQuestion: handleUpdate } = useFormQuestionStore()
   switch (question.type) {
     case "text":
       return (
         <TextInputBlock
           key={question.id}
           question={question as TextInputQuestion}
-          updateQuestion={updateQuestion}
+          updateQuestion={handleUpdate}
           runningNumber={index + 1}
         />
       )
@@ -24,7 +24,7 @@ const QuestionRenderer = ({ question, index }: QuestionRendererProps) => {
         <MultipleChoiceBlock
           key={question.id}
           question={question as MultipleChoiceQuestion}
-          updateQuestion={updateQuestion}
+          updateQuestion={handleUpdate}
           runningNumber={index + 1}
         />
       )

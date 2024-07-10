@@ -22,41 +22,21 @@ const FormBuilderPage = () => {
     { label: 'Text', value: 'text' },
     { label: 'Choice', value: 'multipleChoice' },
   ]
-  // const { questions, addQuestion, setQuestions } = useFormQuestionStore()
-  const [questions, setQuestions] = useState<TInputQuestion[] | []>([])
+  const { questions, addQuestion, setQuestions } = useFormQuestionStore()
   const { setEditingId } = useEditMode()
 
-  const { data, isLoading, isError, isSuccess } = useQuery<TInputQuestion[]>({
-    queryKey: ['questions'],
-    queryFn: fetchQuestions,
-  })
-
-  useEffect(() => {
-    if (isSuccess) {
-      setQuestions(data)
-      console.log(questions)
-    }
-  }, [data, isSuccess])
-
-  const debouncedSave = useCallback(
-    debounce(async (question) => {
-      try {
-        await updateQuestion(question.id, question)
-
-        toast('Questions saved')
-      } catch (error) {
-        console.error('Error saving questions:', error)
-      }
-    }, 2000), // 1000ms debounce delay
-    []
-  )
-  useEffect(() => {
-    if (questions.length > 0) {
-      questions.forEach((question) => {
-        debouncedSave(question)
-      })
-    }
-  }, [questions, debouncedSave])
+  // const debouncedSave = useCallback(
+  //   debounce(async (question) => {
+  //     try {
+  //       await updateQuestion(question.id, question)
+  //       console.log('Saved question:', question);
+        
+  //     } catch (error) {
+  //       console.error('Error saving questions:', error)
+  //     }
+  //   }, 2000),
+  //   []
+  // )
 
   function handleDragEnd(event: any) {
     const { active, over } = event
@@ -73,27 +53,24 @@ const FormBuilderPage = () => {
   }
 
   function handleAddQuestion(type: string) {
-    // if (type === 'text') {
-    //   addQuestion({
-    //     id: questions.length + 1,
-    //     type: 'text',
-    //     label: 'Untitled Question',
-    //     required: false,
-    //   })
-    // } else if (type === 'multipleChoice') {
-    //   addQuestion({
-    //     id: questions.length + 1,
-    //     type: 'multipleChoice',
-    //     label: 'Untitled Question',
-    //     required: false,
-    //     multipleChoose: { status: false },
-    //     options: ['Option 1', 'Option 2'],
-    //   })
-    // }
+    if (type === 'text') {
+      addQuestion({
+        id: questions.length + 1,
+        type: 'text',
+        label: 'Untitled Question',
+        required: false,
+      })
+    } else if (type === 'multipleChoice') {
+      addQuestion({
+        id: questions.length + 1,
+        type: 'multipleChoice',
+        label: 'Untitled Question',
+        required: false,
+        multipleChoose: { status: false },
+        options: ['Option 1', 'Option 2'],
+      })
+    }
   }
-
-  if (isLoading) return <p>Loading...</p>
-  if (isError) return <p>Something went wrong</p>
   return (
     <div className="flex flex-col gap-2">
       {/* <Autosave data={questions} onSave={handleSave} /> */}
@@ -103,7 +80,11 @@ const FormBuilderPage = () => {
         onDragStart={handleDragStart}
       >
         {questions.map((question, index) => (
-          <QuestionRenderer question={question} index={index} key={index} />
+          <QuestionRenderer
+            question={question}
+            index={index}
+            key={question.id}
+          />
         ))}
       </DragAndDropContainer>
       <div className="flex gap-2">

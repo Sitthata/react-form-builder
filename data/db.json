@@ -41,7 +41,7 @@
     {
       "id": 2,
       "type": "multipleChoice",
-      "label": "What is your favorite color?",
+      "label": "What is your favorite color? Test Debounce",
       "required": true,
       "multipleChoose": {
         "status": false
@@ -56,7 +56,7 @@
     {
       "id": 3,
       "type": "multipleChoice",
-      "label": "What is your favorite animals?",
+      "label": "What is your favorite animals?  Test",
       "required": false,
       "multipleChoose": {
         "status": true,
@@ -67,8 +67,16 @@
         "Lion",
         "Tiger",
         "Dog",
-        "Cat"
+        "Cat",
+        "Option 5",
+        "Option 6"
       ]
+    },
+    {
+      "id": 4,
+      "type": "text",
+      "label": "Untitled Question Saved",
+      "required": false
     }
   ],
   "users": [
