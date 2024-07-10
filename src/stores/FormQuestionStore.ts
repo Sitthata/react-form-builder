@@ -31,6 +31,30 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
     }
     return debouncedSaveMap.get(id)
   }
+  function findQuestionIndex(id: number) {
+    return arrayManager.getArray().findIndex((question) => question.id === id)
+  }
+  function getUpdatedQuestionWithDefault(existingQuestion: TInputQuestion, updatedQuestion: Partial<TInputQuestion>) {
+    let updatedQuestionWithDefaults: TInputQuestion
+    if (existingQuestion.type === 'multipleChoice' && updatedQuestion.type === 'multipleChoice') {
+      updatedQuestionWithDefaults = {
+        ...existingQuestion,
+        ...updatedQuestion,
+        type: 'multipleChoice',
+        multipleChoose: updatedQuestion.multipleChoose || existingQuestion.multipleChoose,
+        options: updatedQuestion.options || existingQuestion.options,
+      }
+    } else if (existingQuestion.type === 'text' && updatedQuestion.type === 'text') {
+      updatedQuestionWithDefaults = {
+        ...existingQuestion,
+        ...updatedQuestion,
+        type: 'text',
+      }
+    } else {
+      throw new Error('Type mismatch')
+    }
+    return updatedQuestionWithDefaults
+  }
   return {
     // State
     questions: arrayManager.getArray(),
@@ -43,23 +67,11 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
     },
 
     updateQuestion: (id, updatedQuestion) => {
-      const index = arrayManager
-        .getArray()
-        .findIndex((question) => question.id === id)
+      const index = findQuestionIndex(id)
       if (index !== -1) {
         const existingQuestion = arrayManager.getArray()[index]
-        if (
-          existingQuestion.type === 'multipleChoice' &&
-          updatedQuestion.type &&
-          updatedQuestion.type !== 'multipleChoice'
-        ) {
-          throw new Error('Type mismatch')
-        }
-        arrayManager.update(index, {
-          ...existingQuestion,
-          ...updatedQuestion,
-          type: existingQuestion.type,
-        })
+        const updatedQuestionWithDefaults = getUpdatedQuestionWithDefault(existingQuestion, updatedQuestion)
+        arrayManager.update(index, updatedQuestionWithDefaults)
         refresh()
         getDebouncedSave(id)(arrayManager.getArray()[index])
       }
