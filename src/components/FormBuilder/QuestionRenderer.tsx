@@ -1,16 +1,16 @@
 import TextInputBlock from './TextInputBlock'
 import MultipleChoiceBlock from './MultipleChoiceBlock'
-import useFormQuestionStore from '@/stores/FormQuestionStore';
+import useFormQuestionStore from '@/stores/FormQuestionStore'
 
 type QuestionRendererProps = {
   question: TInputQuestion
   index: number
-};
+}
 
 const QuestionRenderer = ({ question, index }: QuestionRendererProps) => {
   const { updateQuestion: handleUpdate } = useFormQuestionStore()
   switch (question.type) {
-    case "text":
+    case 'text':
       return (
         <TextInputBlock
           key={question.id}
@@ -19,7 +19,7 @@ const QuestionRenderer = ({ question, index }: QuestionRendererProps) => {
           runningNumber={index + 1}
         />
       )
-    case "multipleChoice":
+    case 'multipleChoice':
       return (
         <MultipleChoiceBlock
           key={question.id}
@@ -34,4 +34,3 @@ const QuestionRenderer = ({ question, index }: QuestionRendererProps) => {
 }
 
 export default QuestionRenderer
-

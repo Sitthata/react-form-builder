@@ -41,7 +41,10 @@ const questionComponents: QuestionComponentMap = {
           <RadioGroup onValueChange={field.onChange} defaultValue={field.value}>
             {multipleChoiceQuestion.multipleChoose.status
               ? multipleChoiceQuestion.options?.map((option, index) => (
-                  <FormItem key={index} className="flex items-center space-x-3 space-y-0">
+                  <FormItem
+                    key={index}
+                    className="flex items-center space-x-3 space-y-0"
+                  >
                     <FormControl>
                       <CheckBox option={option} field={field} />
                     </FormControl>

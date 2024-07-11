@@ -30,7 +30,7 @@ const FormBuilderPage = () => {
   //     try {
   //       await updateQuestion(question.id, question)
   //       console.log('Saved question:', question);
-        
+
   //     } catch (error) {
   //       console.error('Error saving questions:', error)
   //     }

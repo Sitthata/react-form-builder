@@ -19,7 +19,7 @@ type FormCardProps = {
 
 const FormCard = ({ title, time, status, description }: FormCardProps) => {
   return (
-    <Card className='flex flex-col h-full rounded-lg'>
+    <Card className="flex h-full flex-col rounded-lg">
       <CardHeader>
         <div className="flex flex-col justify-between gap-2 md:flex-row">
           <div>
@@ -31,7 +31,7 @@ const FormCard = ({ title, time, status, description }: FormCardProps) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent className='flex-grow'>
+      <CardContent className="flex-grow">
         <p
           className={cn('text-sm font-light text-accent-foreground', {
             italic: !description,

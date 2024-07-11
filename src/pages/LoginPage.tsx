@@ -25,7 +25,7 @@ import { DevTool } from '@hookform/devtools'
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string()
+  password: z.string(),
 })
 
 type formDataType = {
