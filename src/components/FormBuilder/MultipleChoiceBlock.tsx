@@ -55,10 +55,8 @@ const TextInputBlock = ({
   function handleMultipleChooseChange() {
     setLocalQuestion({
       ...localQuestion,
-      multipleChoose: {
-        status: !localQuestion.multipleChoose?.status,
-        type: 'noLimit',
-      },
+      status: !localQuestion.status,
+      multipleType: 'noLimit',
     })
   }
 
@@ -97,7 +95,7 @@ const TextInputBlock = ({
                   onChange={handleLabelChange}
                 />
               </h1>
-              {localQuestion.multipleChoose?.status ? (
+              {localQuestion.status ? (
                 <div className="flex flex-col gap-2">
                   {localQuestion.options?.map((option, index) => (
                     <div className="flex items-center space-x-2" key={index}>
@@ -145,7 +143,7 @@ const TextInputBlock = ({
               <div className="flex justify-end gap-5">
                 <div className="flex items-center space-x-2">
                   <Switch
-                    checked={localQuestion.multipleChoose?.status}
+                    checked={localQuestion.status}
                     onCheckedChange={handleMultipleChooseChange}
                   />
                   <Label>Multiple answers</Label>
@@ -162,7 +160,7 @@ const TextInputBlock = ({
           ) : (
             <div className="flex flex-col gap-2">
               <Label className="text-sm">{`${runningNumber}. ${localQuestion.label}`}</Label>
-              {localQuestion.multipleChoose?.status ? (
+              {localQuestion.status ? (
                 <div className="flex flex-col gap-2">
                   {localQuestion.options?.map((option, index) => (
                     <div className="flex items-center space-x-2" key={index}>

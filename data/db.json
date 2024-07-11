@@ -55,9 +55,7 @@
       "type": "multipleChoice",
       "label": "What is your favorite color? Gay",
       "required": true,
-      "multipleChoose": {
-        "status": false
-      },
+      "status": false,
       "options": [
         "Velvet",
         "Blue",
@@ -70,11 +68,9 @@
       "type": "multipleChoice",
       "label": "What is your favorite animals? Kuy gun",
       "required": false,
-      "multipleChoose": {
-        "status": true,
-        "type": "noLimit",
-        "limit": 2
-      },
+      "status": true,
+      "multipleType": "noLimit",
+      "limit": 2,
       "options": [
         "Lion",
         "Tiger",
@@ -93,6 +89,19 @@
       "type": "text",
       "label": "Untitled Question",
       "required": false
+    },
+    {
+      "id": 6,
+      "type": "multipleChoice",
+      "label": "Test new Multiple",
+      "required": false,
+      "status": false,
+      "multipleType": "noLimit",
+      "limit": 0,
+      "options": [
+        "Option 1",
+        "Option 2"
+      ]
     }
   ],
   "users": [

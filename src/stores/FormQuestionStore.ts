@@ -55,8 +55,10 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
         ...existingQuestion,
         ...updatedQuestion,
         type: 'multipleChoice',
-        multipleChoose:
-          updatedQuestion.multipleChoose || existingQuestion.multipleChoose,
+        limit: updatedQuestion.limit || existingQuestion.limit,
+        status: updatedQuestion.status || existingQuestion.status,
+        multipleType:
+          updatedQuestion.multipleType || existingQuestion.multipleType,
         options: updatedQuestion.options || existingQuestion.options,
       }
     } else if (

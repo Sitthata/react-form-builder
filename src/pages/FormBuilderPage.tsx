@@ -48,7 +48,9 @@ const FormBuilderPage = () => {
         type: 'multipleChoice',
         label: 'Untitled Question',
         required: false,
-        multipleChoose: { status: false },
+        status: false,
+        multipleType: 'noLimit',
+        limit: 0,
         options: ['Option 1', 'Option 2'],
       })
     }

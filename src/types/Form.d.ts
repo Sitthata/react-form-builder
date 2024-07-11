@@ -23,13 +23,9 @@ interface MultipleChoiceQuestion {
   type: 'multipleChoice'
   label: string
   required: boolean
-  multipleChoose: TMultipleChoose
   options?: string[]
-}
-
-type TMultipleChoose = {
   status: boolean
-  type?: 'noLimit' | 'equalTo' | 'atMost'
+  multipleType?: 'noLimit' | 'equalTo' | 'atMost'
   limit?: number
 }
 

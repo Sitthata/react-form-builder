@@ -6,7 +6,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { showDefault } from '@/lib/utils'
 import { ReactNode } from 'react'
 
 type DialogComponentProps = {
