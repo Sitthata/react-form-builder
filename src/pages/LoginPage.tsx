@@ -46,7 +46,7 @@ const LoginPage = () => {
     try {
       await login(values.email, values.password)
       toast.success('Login successful')
-      return navigate('/dashboard')
+      return navigate('/')
     } catch (error: any) {
       toast.error('Login failed', {
         description: error.message,

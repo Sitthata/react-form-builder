@@ -28,10 +28,6 @@ const router = createBrowserRouter([
         element: <SignUpPage />,
       },
       {
-        path: 'dashboard',
-        element: <ProtectedRoute element={<FormGallery />} />,
-      },
-      {
         path: 'editor',
         element: <ProtectedRoute element={<FormBuilderPage />} />,
       },

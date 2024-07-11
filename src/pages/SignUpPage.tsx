@@ -60,9 +60,13 @@ const LoginPage = () => {
   const navigate = useNavigate()
 
   async function onSubmit(values: formValidationType) {
-    await signup(values.username, values.email, values.password)
-    navigate('/login')
-    toast(<code>{JSON.stringify(values, null, 2)}</code>)
+    try {
+      await signup(values.username, values.email, values.password)
+      navigate('/login')
+      toast(<code>{JSON.stringify(values, null, 2)}</code>)
+    } catch (error: any) {
+      toast.error(error.message)
+    }
   }
   const formData: formDataType[] = [
     {

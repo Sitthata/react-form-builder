@@ -1,5 +1,6 @@
 import { useAuth } from '@/auth/AuthContext'
-import { Navigate } from 'react-router'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router'
 
 type ProtectedRouteProps = {
   element: React.ReactNode
@@ -7,9 +8,14 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
   const { isAuth } = useAuth()
-  if (!isAuth) {
-    return <Navigate to="/login" />
-  }
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate('/login')
+    }
+  }, [isAuth, navigate])
+
   return element
 }
 

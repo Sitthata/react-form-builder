@@ -11,11 +11,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import QuestionRenderer from '@/components/FormBuilder/QuestionRenderer'
 import { Link } from 'react-router-dom'
-import { fetchQuestions, updateQuestion } from '@/api/questionsService'
-import { useQuery } from '@tanstack/react-query'
-import { useCallback, useEffect, useState } from 'react'
-import { debounce } from 'lodash'
-import { toast } from 'sonner'
 
 const FormBuilderPage = () => {
   const questionType = [
@@ -24,19 +19,6 @@ const FormBuilderPage = () => {
   ]
   const { questions, addQuestion, setQuestions } = useFormQuestionStore()
   const { setEditingId } = useEditMode()
-
-  // const debouncedSave = useCallback(
-  //   debounce(async (question) => {
-  //     try {
-  //       await updateQuestion(question.id, question)
-  //       console.log('Saved question:', question);
-
-  //     } catch (error) {
-  //       console.error('Error saving questions:', error)
-  //     }
-  //   }, 2000),
-  //   []
-  // )
 
   function handleDragEnd(event: any) {
     const { active, over } = event
@@ -73,7 +55,6 @@ const FormBuilderPage = () => {
   }
   return (
     <div className="flex flex-col gap-2">
-      {/* <Autosave data={questions} onSave={handleSave} /> */}
       <DragAndDropContainer
         items={questions}
         onDragEnd={handleDragEnd}

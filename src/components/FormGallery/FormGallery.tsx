@@ -3,6 +3,7 @@ import AddNewForm from './AddNewForm'
 import FormCard from './FormCard'
 
 export type Form = {
+  id: number
   title: string
   createdAt: string
   status: 'Draft' | 'Published'
@@ -19,10 +20,7 @@ const FormGallery = () => {
       {data?.map((form, index) => (
         <FormCard
           key={index}
-          title={form.title}
-          time={form.createdAt}
-          status={form.status}
-          description={form.description}
+          form={form as Form}
         />
       ))}
     </div>

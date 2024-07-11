@@ -42,3 +42,7 @@ export function createArrayManager<T>(initialArray: T[] = []) {
     },
   }
 }
+
+export function showDefault(defaultWord: string, value: string | undefined) {
+  return value ? value : defaultWord
+}

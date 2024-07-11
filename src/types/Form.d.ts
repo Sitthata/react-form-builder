@@ -4,6 +4,13 @@ interface Block {
   label: string
 }
 
+type TForm = {
+  id: number
+  title: string
+  createdAt: string
+  status: 'Draft' | 'Published'
+  description: string
+}
 interface TextInputQuestion {
   id: number
   type: 'text'

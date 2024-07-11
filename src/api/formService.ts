@@ -17,3 +17,14 @@ export const postForm = async (form: Partial<Form>) => {
   })
   return response.data
 }
+
+export const putForm = async (id: number, form: Form) => {
+  if (!id) throw new Error('Form ID is required')
+  const response = await api.put(`/forms/${id}`, form)
+  return response.data
+}
+
+export const deleteForm = async (id: number) => {
+  const response = await api.delete(`/forms/${id}`)
+  return response.data
+}
