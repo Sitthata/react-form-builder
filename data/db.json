@@ -41,13 +41,13 @@
     {
       "id": 2,
       "type": "multipleChoice",
-      "label": "What is your favorite color? Test Debounce",
+      "label": "What is your favorite color?",
       "required": true,
       "multipleChoose": {
         "status": false
       },
       "options": [
-        "Red",
+        "Velvet",
         "Blue",
         "Green",
         "Yellow"
@@ -56,7 +56,7 @@
     {
       "id": 3,
       "type": "multipleChoice",
-      "label": "What is your favorite animals?  Test",
+      "label": "What is your favorite animals? ",
       "required": false,
       "multipleChoose": {
         "status": true,
@@ -67,9 +67,7 @@
         "Lion",
         "Tiger",
         "Dog",
-        "Cat",
-        "Option 5",
-        "Option 6"
+        "Cat"
       ]
     },
     {

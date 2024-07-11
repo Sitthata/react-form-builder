@@ -1,6 +1,6 @@
 import { addQuestion, updateQuestion } from '@/api/questionsService'
 import { createArrayManager } from '@/lib/utils'
-import { debounce } from 'lodash'
+import { debounce, DebouncedFunc } from 'lodash'
 import { create } from 'zustand'
 
 interface FormQuestionState {
@@ -10,12 +10,18 @@ interface FormQuestionState {
   removeQuestion: (id: number) => void
   setQuestions: (questions: TInputQuestion[]) => void
 }
+
 const useFormQuestionStore = create<FormQuestionState>((set) => {
   const arrayManager = createArrayManager<TInputQuestion>([])
-  const debouncedSaveMap = new Map()
+
+  const debouncedSaveMap = new Map<
+    number,
+    DebouncedFunc<(question: TInputQuestion) => Promise<void>>
+  >()
   function refresh() {
     set({ questions: arrayManager.getArray() })
   }
+
   function getDebouncedSave(id: number) {
     if (!debouncedSaveMap.has(id)) {
       const debouncedSave = debounce(async (question) => {
@@ -31,20 +37,32 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
     }
     return debouncedSaveMap.get(id)
   }
+
   function findQuestionIndex(id: number) {
     return arrayManager.getArray().findIndex((question) => question.id === id)
   }
-  function getUpdatedQuestionWithDefault(existingQuestion: TInputQuestion, updatedQuestion: Partial<TInputQuestion>) {
+
+  function getUpdatedQuestionWithDefault(
+    existingQuestion: TInputQuestion,
+    updatedQuestion: Partial<TInputQuestion>
+  ) {
     let updatedQuestionWithDefaults: TInputQuestion
-    if (existingQuestion.type === 'multipleChoice' && updatedQuestion.type === 'multipleChoice') {
+    if (
+      existingQuestion.type === 'multipleChoice' &&
+      updatedQuestion.type === 'multipleChoice'
+    ) {
       updatedQuestionWithDefaults = {
         ...existingQuestion,
         ...updatedQuestion,
         type: 'multipleChoice',
-        multipleChoose: updatedQuestion.multipleChoose || existingQuestion.multipleChoose,
+        multipleChoose:
+          updatedQuestion.multipleChoose || existingQuestion.multipleChoose,
         options: updatedQuestion.options || existingQuestion.options,
       }
-    } else if (existingQuestion.type === 'text' && updatedQuestion.type === 'text') {
+    } else if (
+      existingQuestion.type === 'text' &&
+      updatedQuestion.type === 'text'
+    ) {
       updatedQuestionWithDefaults = {
         ...existingQuestion,
         ...updatedQuestion,
@@ -55,6 +73,7 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
     }
     return updatedQuestionWithDefaults
   }
+
   return {
     // State
     questions: arrayManager.getArray(),
@@ -70,10 +89,14 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
       const index = findQuestionIndex(id)
       if (index !== -1) {
         const existingQuestion = arrayManager.getArray()[index]
-        const updatedQuestionWithDefaults = getUpdatedQuestionWithDefault(existingQuestion, updatedQuestion)
+        const updatedQuestionWithDefaults = getUpdatedQuestionWithDefault(
+          existingQuestion,
+          updatedQuestion
+        )
         arrayManager.update(index, updatedQuestionWithDefaults)
         refresh()
-        getDebouncedSave(id)(arrayManager.getArray()[index])
+        const debouncedSave = getDebouncedSave(id)
+        if (debouncedSave) debouncedSave(updatedQuestionWithDefaults)
       }
     },
 
