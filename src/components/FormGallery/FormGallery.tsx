@@ -11,17 +11,15 @@ export type Form = {
 }
 
 const FormGallery = () => {
-  const { data, isLoading, isError } = useFetchForms()
+  const { data: forms, isLoading, isError } = useFetchForms()
   return (
     <div className="mt-5 grid grid-cols-1 gap-2 md:grid-cols-3">
       <AddNewForm />
       {isLoading && <p>Loading...</p>}
-      {isError && !data?.length && <p>Something went wrong</p>}
-      {data?.map((form, index) => (
-        <FormCard
-          key={index}
-          form={form as Form}
-        />
+      {isError && !forms?.length && <p>Something went wrong</p>}
+      {forms?.length === 0 && <p>Look like your form is empty</p>}
+      {forms?.map((form, index) => (
+        <FormCard key={index} form={form as Form} />
       ))}
     </div>
   )

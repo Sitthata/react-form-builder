@@ -1,3 +1,4 @@
+import { AuthResponse } from '@/api/authService'
 import axios from 'axios'
 
 const BASE_URL =
@@ -15,9 +16,9 @@ const createAxiosInstance = () => {
 
   instance.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem('token')
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`
+      const auth: AuthResponse = JSON.parse(localStorage.getItem('auth') || '{}')
+      if (auth.accessToken) {
+        config.headers.Authorization = `Bearer ${auth.accessToken}`
       }
       return config
     },
@@ -30,21 +31,21 @@ const createAxiosInstance = () => {
     (response) => response,
     async (error) => {
       const originalRequest = error.config
-      const token = localStorage.getItem('token')
+      const auth: AuthResponse = JSON.parse(localStorage.getItem('auth') || '{}')
       if (error.response.status === 401 && !originalRequest._isRetry) {
         originalRequest._isRetry = true
         try {
           const response = await axios.post(
             `${BASE_URL}/refresh`,
             {
-              token,
+              accessToken: auth.accessToken
             },
             { withCredentials: true }
           )
-          localStorage.setItem('token', response.data.accessToken)
+          localStorage.setItem('auth', JSON.stringify(response.data))
           return instance(originalRequest)
         } catch (error) {
-          localStorage.removeItem('token')
+          localStorage.removeItem('auth')
           return Promise.reject(error)
         }
       }

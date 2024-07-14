@@ -2,7 +2,7 @@ import createAxiosInstance from '@/auth/axiosInstance'
 
 const api = createAxiosInstance()
 
-type AuthResponse = {
+export type AuthResponse = {
   accessToken: string
   username: string
   role: string[]

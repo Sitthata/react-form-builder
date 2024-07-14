@@ -15,14 +15,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [token, setToken] = useState<string | null>(
-    localStorage.getItem('token') || null
+    localStorage.getItem('auth') || null
   )
   const isAuth = !!token
 
   const login = async (email: string, password: string) => {
     try {
       const data = await loginApi(email, password)
-      localStorage.setItem('token', data.accessToken)
+      localStorage.setItem('auth', JSON.stringify(data))
       setToken(data.accessToken)
     } catch (error) {
       console.error(error)
@@ -33,7 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const signup = async (username: string, email: string, password: string) => {
     try {
       const data = await signUpApi(username, email, password)
-      localStorage.setItem('token', data.accessToken)
+      localStorage.setItem('auth', JSON.stringify(data))
       setToken(data.accessToken)
     } catch (error) {
       console.error(error)
@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }
 
   const logout = () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem('auth')
     setToken(null)
   }
   return (
