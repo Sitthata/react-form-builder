@@ -4,7 +4,7 @@ import axios from 'axios'
 const BASE_URL =
   import.meta.env.VITE_ENV === 'dev'
     ? 'http://localhost:3000'
-    : import.meta.env.VITE_PROD_URL
+    : `${import.meta.env.VITE_PROD_URL}`
 
 const createAxiosInstance = () => {
   const instance = axios.create({
@@ -36,7 +36,7 @@ const createAxiosInstance = () => {
         originalRequest._isRetry = true
         try {
           const response = await axios.post(
-            `${BASE_URL}/refresh`,
+            `${BASE_URL}/auth/refresh`,
             {
               accessToken: auth.accessToken
             },
