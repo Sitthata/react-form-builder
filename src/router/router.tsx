@@ -28,7 +28,7 @@ const router = createBrowserRouter([
         element: <SignUpPage />,
       },
       {
-        path: 'editor',
+        path: 'editor/:formId',
         element: <ProtectedRoute element={<FormBuilderPage />} />,
       },
       {

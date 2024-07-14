@@ -10,14 +10,28 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import QuestionRenderer from '@/components/FormBuilder/QuestionRenderer'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useFetchQuestion } from '@/hooks/useFetchQuestions'
+import { useEffect } from 'react'
+
+const questionType = [
+  { label: 'Text', value: 'text' },
+  { label: 'Choice', value: 'multipleChoice' },
+]
 
 const FormBuilderPage = () => {
-  const questionType = [
-    { label: 'Text', value: 'text' },
-    { label: 'Choice', value: 'multipleChoice' },
-  ]
+  const { formId } = useParams()
+  
+  const { data: questionsData, isSuccess } = useFetchQuestion(Number(formId))
+
   const { questions, addQuestion, setQuestions } = useFormQuestionStore()
+  useEffect(() => {
+    if (isSuccess) {
+      setQuestions(questionsData.questions)
+      console.log(questionsData);
+    }
+  }, [questionsData, isSuccess, setQuestions])
+
   const { setEditingId } = useEditMode()
 
   function handleDragEnd(event: any) {
@@ -35,15 +49,14 @@ const FormBuilderPage = () => {
   }
 
   function handleAddQuestion(type: string) {
-    if (type === 'text') {
-      addQuestion({
+    const questionMap: any = {
+      text: {
         id: questions.length + 1,
         type: 'text',
         label: 'Untitled Question',
         required: false,
-      })
-    } else if (type === 'multipleChoice') {
-      addQuestion({
+      },
+      multipleChoice: {
         id: questions.length + 1,
         type: 'multipleChoice',
         label: 'Untitled Question',
@@ -52,8 +65,9 @@ const FormBuilderPage = () => {
         multipleType: 'noLimit',
         limit: 0,
         options: ['Option 1', 'Option 2'],
-      })
+      },
     }
+    addQuestion(questionMap[type], Number(formId))
   }
   return (
     <div className="flex flex-col gap-2">

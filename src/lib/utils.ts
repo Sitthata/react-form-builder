@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { formatDistanceToNow } from 'date-fns'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -40,9 +41,24 @@ export function createArrayManager<T>(initialArray: T[] = []) {
     clear: () => {
       array = []
     },
+    getIndexFromId: (id: number) => {
+      return array.findIndex((element) => (element as any).id === id)
+    },
   }
 }
 
 export function showDefault(defaultWord: string, value: string | undefined) {
   return value ? value : defaultWord
+}
+
+export function formatDateToNow(date: string) {
+  return formatDistanceToNow(new Date(date), { addSuffix: true })
+}
+
+export function mapToType(value: string) {
+  const map: Record<string, string> = {
+    TEXT: 'text',
+    MULTIPLE_CHOICE: 'multipleChoice',
+  }
+  return map[value]
 }

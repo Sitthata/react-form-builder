@@ -5,7 +5,7 @@ import { create } from 'zustand'
 
 interface FormQuestionState {
   questions: TInputQuestion[]
-  addQuestion: (question: TInputQuestion) => void
+  addQuestion: (question: TInputQuestion, id: number) => void
   updateQuestion: (id: number, question: Partial<TInputQuestion>) => void
   removeQuestion: (id: number) => void
   setQuestions: (questions: TInputQuestion[]) => void
@@ -81,9 +81,9 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
     questions: arrayManager.getArray(),
 
     // Actions
-    addQuestion: async (question) => {
+    addQuestion: async (question, id) => {
       arrayManager.push(question)
-      await addQuestion(question)
+      await addQuestion(question, id)
       refresh()
     },
 
@@ -97,8 +97,8 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
         )
         arrayManager.update(index, updatedQuestionWithDefaults)
         refresh()
-        const debouncedSave = getDebouncedSave(id)
-        if (debouncedSave) debouncedSave(updatedQuestionWithDefaults)
+        // const debouncedSave = getDebouncedSave(id)
+        // if (debouncedSave) debouncedSave(updatedQuestionWithDefaults)
       }
     },
 

@@ -11,6 +11,16 @@ type TForm = {
   status: 'Draft' | 'Published'
   description: string
 }
+
+type TFormQuestion = {
+  id: number
+  title: string
+  createdAt: string
+  status: 'Draft' | 'Published'
+  description: string
+  questions: TInputQuestion[]
+}
+
 interface TextInputQuestion {
   id: number
   type: 'text'

@@ -1,6 +1,8 @@
 import { useFetchForms } from '@/hooks/useFetchForms'
 import AddNewForm from './AddNewForm'
 import FormCard from './FormCard'
+import { useEffect } from 'react'
+import useFormsStore from '@/stores/FormStore'
 
 export type Form = {
   id: number
@@ -11,7 +13,15 @@ export type Form = {
 }
 
 const FormGallery = () => {
-  const { data: forms, isLoading, isError } = useFetchForms()
+  const { data: formsData, isLoading, isError, isSuccess } = useFetchForms()
+  const { forms, setForms } = useFormsStore()
+  useEffect(() => {
+    if (isSuccess) {
+      setForms(formsData)
+      console.log(formsData);
+    }
+  }, [formsData, isSuccess, setForms])
+
   return (
     <div className="mt-5 grid grid-cols-1 gap-2 md:grid-cols-3">
       <AddNewForm />

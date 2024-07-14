@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/card'
 import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
-import { cn } from '@/lib/utils'
+import { cn, formatDateToNow } from '@/lib/utils'
 import { useNavigate } from 'react-router'
 import DialogComponent from '../Dialog/DialogComponent'
 import useDialog from '../Dialog/useDialog'
@@ -24,25 +24,32 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { useState } from 'react'
+import useFormsStore from '@/stores/FormStore'
+import { toast } from 'sonner'
 
 type FormCardProps = {
   form: TForm
 }
 
 const FormCard = ({ form }: FormCardProps) => {
-  const { title, createdAt: time, status, description } = form
+  const { id, title, createdAt: time, status, description } = form
   const navigate = useNavigate()
   const handleFormClick = () => {
-    navigate(`/editor`)
+    navigate(`/editor/${id}`)
   }
   const { isOpen, setIsOpen, openDialog, closeDialog } = useDialog()
   const [openAlertDialog, setOpenAlertDialog] = useState(false)
+  const { removeForm } = useFormsStore()
 
   const handleAlertOpen = () => {
     setOpenAlertDialog(true)
     closeDialog()
   }
 
+  const handleDeleteForm = () => {
+    removeForm(id)
+    toast.success(`Form "${title}" has been deleted`)
+  }
   return (
     <>
       <Card
@@ -53,7 +60,7 @@ const FormCard = ({ form }: FormCardProps) => {
           <div className="flex flex-col justify-between gap-2 md:flex-row">
             <div>
               <CardTitle>{title}</CardTitle>
-              <CardDescription>{time}</CardDescription>
+              <CardDescription>{formatDateToNow(time)}</CardDescription>
             </div>
             <div>
               <Badge className="p-1">{status}</Badge>
@@ -95,7 +102,9 @@ const FormCard = ({ form }: FormCardProps) => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={handleDeleteForm}>
+              Continue
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
