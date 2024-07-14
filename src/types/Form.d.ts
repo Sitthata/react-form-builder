@@ -33,7 +33,7 @@ interface MultipleChoiceQuestion {
   type: 'multipleChoice'
   label: string
   required: boolean
-  options?: string[]
+  choices?: string[]
   status: boolean
   multipleType?: 'noLimit' | 'equalTo' | 'atMost'
   limit?: number

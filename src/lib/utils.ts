@@ -62,3 +62,11 @@ export function mapToType(value: string) {
   }
   return map[value]
 }
+
+export function mapToEnum(value: string) {
+  const map: Record<string, string> = {
+    text: 'TEXT',
+    multipleChoice: 'MULTIPLE_CHOICE',
+  }
+  return map[value]
+}

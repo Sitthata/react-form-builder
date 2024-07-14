@@ -9,6 +9,7 @@ type QuestionRendererProps = {
 
 const QuestionRenderer = ({ question, index }: QuestionRendererProps) => {
   const { updateQuestion: handleUpdate } = useFormQuestionStore()
+
   switch (question.type) {
     case 'text':
       return (

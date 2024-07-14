@@ -59,7 +59,7 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
         status: updatedQuestion.status || existingQuestion.status,
         multipleType:
           updatedQuestion.multipleType || existingQuestion.multipleType,
-        options: updatedQuestion.options || existingQuestion.options,
+        choices: updatedQuestion.choices || existingQuestion.choices,
       }
     } else if (
       existingQuestion.type === 'text' &&
@@ -97,8 +97,8 @@ const useFormQuestionStore = create<FormQuestionState>((set) => {
         )
         arrayManager.update(index, updatedQuestionWithDefaults)
         refresh()
-        // const debouncedSave = getDebouncedSave(id)
-        // if (debouncedSave) debouncedSave(updatedQuestionWithDefaults)
+        const debouncedSave = getDebouncedSave(id)
+        if (debouncedSave) debouncedSave(updatedQuestionWithDefaults)
       }
     },
 

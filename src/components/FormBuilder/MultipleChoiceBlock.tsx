@@ -39,15 +39,15 @@ const TextInputBlock = ({
   }
 
   function handleAddOptions() {
-    if (!localQuestion.options) {
-      setLocalQuestion({ ...localQuestion, options: [] })
+    if (!localQuestion.choices) {
+      setLocalQuestion({ ...localQuestion, choices: [] })
       return
     }
     setLocalQuestion({
       ...localQuestion,
-      options: [
-        ...localQuestion.options,
-        `Option ${localQuestion.options.length + 1}`,
+      choices: [
+        ...localQuestion.choices,
+        `Option ${localQuestion.choices.length + 1}`,
       ],
     })
   }
@@ -64,20 +64,20 @@ const TextInputBlock = ({
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) {
-    if (!localQuestion.options) return
+    if (!localQuestion.choices) return
     setLocalQuestion({
       ...localQuestion,
-      options: localQuestion.options.map((option, i) =>
+      choices: localQuestion.choices.map((option, i) =>
         i === index ? e.target.value : option
       ),
     })
   }
 
   function handleDeleteOption(index: number) {
-    if (!localQuestion.options) return
+    if (!localQuestion.choices) return
     setLocalQuestion({
       ...localQuestion,
-      options: localQuestion.options.filter((_, i) => i !== index),
+      choices: localQuestion.choices.filter((_, i) => i !== index),
     })
   }
 
@@ -97,7 +97,7 @@ const TextInputBlock = ({
               </h1>
               {localQuestion.status ? (
                 <div className="flex flex-col gap-2">
-                  {localQuestion.options?.map((option, index) => (
+                  {localQuestion.choices?.map((option, index) => (
                     <div className="flex items-center space-x-2" key={index}>
                       <Checkbox id={option} />
                       <div className="flex w-3/4 gap-2">
@@ -119,7 +119,7 @@ const TextInputBlock = ({
                 </div>
               ) : (
                 <RadioGroup disabled>
-                  {localQuestion.options?.map((option, index) => (
+                  {localQuestion.choices?.map((option, index) => (
                     <div className="flex items-center space-x-2" key={index}>
                       <RadioGroupItem value={option} />
                       <div className="flex w-3/4 gap-2">
@@ -162,7 +162,7 @@ const TextInputBlock = ({
               <Label className="text-sm">{`${runningNumber}. ${localQuestion.label}`}</Label>
               {localQuestion.status ? (
                 <div className="flex flex-col gap-2">
-                  {localQuestion.options?.map((option, index) => (
+                  {localQuestion.choices?.map((option, index) => (
                     <div className="flex items-center space-x-2" key={index}>
                       <Checkbox id={option} />
                       <Label>{`${option}`}</Label>
@@ -171,7 +171,7 @@ const TextInputBlock = ({
                 </div>
               ) : (
                 <RadioGroup disabled>
-                  {localQuestion.options?.map((option, index) => (
+                  {localQuestion.choices?.map((option, index) => (
                     <div className="flex items-center space-x-2" key={index}>
                       <RadioGroupItem value={option} />
                       <Label>{`${option}`}</Label>
