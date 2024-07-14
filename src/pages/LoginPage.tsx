@@ -24,7 +24,7 @@ import { toast } from 'sonner'
 import { DevTool } from '@hookform/devtools'
 
 const formSchema = z.object({
-  email: z.string().email(),
+  email: z.string(),
   password: z.string(),
 })
 
