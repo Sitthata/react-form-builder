@@ -15,7 +15,11 @@ const Navbar = () => {
   }, [isAuth])
 
   return (
-    <nav className="sticky top-0 mx-auto flex items-center justify-between px-5 py-4">
+    <nav
+      className={cn(
+        'sticky top-0 z-50 mx-auto flex items-center justify-between px-5 py-4'
+      )}
+    >
       <h1 className="text-2xl">
         <Link to="/">FormBuilder</Link>
       </h1>

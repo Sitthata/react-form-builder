@@ -54,6 +54,7 @@ const FormPreview = () => {
                     message: 'This field is required',
                   },
                 }}
+                defaultValue={question.type === 'multipleChoice' ? [] : ''}
               />
             )
           })}

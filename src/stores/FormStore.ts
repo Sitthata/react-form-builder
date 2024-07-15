@@ -3,6 +3,8 @@ import { create } from 'zustand'
 
 interface FormStore {
   forms: TForm[]
+  currentActiveForm: TForm | null
+  setCurrentActiveForm: (formId: number) => void
   addForm: (form: TForm) => void
   updateForm: (id: number, form: Partial<TForm>) => void
   removeForm: (id: number) => void
@@ -16,6 +18,11 @@ const useFormsStore = create<FormStore>((set) => {
   }
   return {
     forms: [],
+    currentActiveForm: null,
+    setCurrentActiveForm: (formId: number) => {
+      const index = arrayManager.getIndexFromId(formId)
+      set({ currentActiveForm: arrayManager.getArray()[index] })
+    },
     addForm: (form: TForm) => {
       arrayManager.push(form)
       refresh()

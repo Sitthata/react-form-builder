@@ -12,7 +12,8 @@ import {
 import QuestionRenderer from '@/components/FormBuilder/QuestionRenderer'
 import { Link, useParams } from 'react-router-dom'
 import { useFetchQuestion } from '@/hooks/useFetchQuestions'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { showDefault } from '@/lib/utils'
 
 const questionType = [
   { label: 'Text', value: 'text' },
@@ -21,14 +22,18 @@ const questionType = [
 
 const FormBuilderPage = () => {
   const { formId } = useParams()
-  
+
   const { data: questionsData, isSuccess } = useFetchQuestion(Number(formId))
 
   const { questions, addQuestion, setQuestions } = useFormQuestionStore()
+  const [currentActiveForm, setCurrentActiveForm] =
+    useState<TFormQuestion | null>(null)
+
   useEffect(() => {
     if (isSuccess) {
       setQuestions(questionsData.questions)
-      console.log(questionsData);
+      setCurrentActiveForm(questionsData)
+      console.log(questionsData)
     }
   }, [questionsData, isSuccess, setQuestions])
 
@@ -71,6 +76,8 @@ const FormBuilderPage = () => {
   }
   return (
     <div className="flex flex-col gap-2">
+      <h1 className="text-3xl">{currentActiveForm?.title}</h1>
+      <p>{showDefault('No description', currentActiveForm?.description)}</p>
       <DragAndDropContainer
         items={questions}
         onDragEnd={handleDragEnd}

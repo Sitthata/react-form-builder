@@ -34,9 +34,7 @@ type FormCardProps = {
 const FormCard = ({ form }: FormCardProps) => {
   const { id, title, createdAt: time, status, description } = form
   const navigate = useNavigate()
-  const handleFormClick = () => {
-    navigate(`/editor/${id}`)
-  }
+
   const { isOpen, setIsOpen, openDialog, closeDialog } = useDialog()
   const [openAlertDialog, setOpenAlertDialog] = useState(false)
   const { removeForm } = useFormsStore()
@@ -44,6 +42,10 @@ const FormCard = ({ form }: FormCardProps) => {
   const handleAlertOpen = () => {
     setOpenAlertDialog(true)
     closeDialog()
+  }
+
+  const handleFormClick = () => {
+    navigate(`/editor/${id}`)
   }
 
   const handleDeleteForm = () => {

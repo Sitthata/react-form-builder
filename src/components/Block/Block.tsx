@@ -57,7 +57,7 @@ const Block = ({ id, children, className, ...props }: BlockProps) => {
   return (
     <div
       className={cn(
-        'group cursor-pointer rounded-lg p-5 transition-colors duration-300 hover:bg-selection-foreground',
+        'group cursor-pointer rounded-lg p-2 transition-colors duration-300 hover:bg-selection-foreground',
         {
           'bg-selection': isEditing,
         },

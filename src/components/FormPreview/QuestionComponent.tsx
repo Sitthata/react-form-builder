@@ -39,8 +39,8 @@ const questionComponents: QuestionComponentMap = {
         <FormLabel>{`${runningNumber}. ${multipleChoiceQuestion.label}`}</FormLabel>
         <FormControl>
           <RadioGroup onValueChange={field.onChange} defaultValue={field.value}>
-            {multipleChoiceQuestion.multipleChoose.status
-              ? multipleChoiceQuestion.options?.map((option, index) => (
+            {multipleChoiceQuestion.status
+              ? multipleChoiceQuestion.choices?.map((option, index) => (
                   <FormItem
                     key={index}
                     className="flex items-center space-x-3 space-y-0"
@@ -53,7 +53,7 @@ const questionComponents: QuestionComponentMap = {
                     </FormLabel>
                   </FormItem>
                 ))
-              : multipleChoiceQuestion.options?.map((option, index) => (
+              : multipleChoiceQuestion.choices?.map((option, index) => (
                   <FormItem
                     key={index}
                     className="flex items-center space-x-3 space-y-0"
